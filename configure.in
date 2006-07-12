@@ -1,0 +1,69 @@
+AC_PREREQ(2.50)
+
+AC_INIT([nrEngine], [0.0.5])
+
+AC_CANONICAL_TARGET
+
+# Define config files and lib name
+AM_INIT_AUTOMAKE([nrEngine], [0.0.5])
+AM_CONFIG_HEADER([nrEngine/include/config.h])
+
+dnl Check for programs
+AC_PROG_CC
+AC_PROG_CXX
+AM_PROG_CC_C_O
+AC_PROG_INSTALL
+AC_PROG_YACC
+AM_PROG_LEX
+
+
+dnl Setup target-specific parameters
+SETUP_FOR_TARGET
+AC_DISABLE_STATIC
+AC_PROG_LIBTOOL
+
+dnl Detect endianness
+DETECT_ENDIAN
+
+dnl Check to see if -fPIC is required.
+CHECK_PIC
+
+dnl Check libraries and functions we need
+AC_CHECK_LIB(dl, dlopen)
+AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
+AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,,vsnprintf))
+
+
+
+# Setup our own compiler flags
+CFLAGS="-O2  -fomit-frame-pointer -Wall -Werror"
+CXXFLAGS="-O2  -fomit-frame-pointer -Wall -Werror"
+#CFLAGS="$CFLAGS -O2 -Wall -Werror"
+#CXXFLAGS="$CXXFLAGS -O2 -Wall -Werror"
+#LIBS="$LIBS $BOOST_SIGNALS_LIB"
+LDFLAGS="$LDFLAGS $BOOST_SIGNALS_LIB"
+
+dnl versioning info for libtool
+NRENGINEMAIN_CURRENT=0
+NRENGINEMAIN_AGE=0
+NRENGINEMAIN_REVISION=5
+NRENGINEMAIN_VERSION_INFO=$NRENGINEMAIN_CURRENT:$NRENGINEMAIN_REVISION:$NRENGINEMAIN_AGE
+AC_SUBST(NRENGINEMAIN_VERSION_INFO)
+
+
+NRENGINE_CFLAGS=
+AC_SUBST(NRENGINE_CFLAGS)
+
+dnl Create the makefiles
+AC_CONFIG_FILES([Makefile\
+		nrEngine/Makefile\
+		nrEngine/src/Makefile\
+		nrEngine/include/Makefile\
+		nrEngine/include/events/Makefile\
+		doc/Makefile\
+		doc/dias/Makefile\
+		Plugins/Makefile\
+		Plugins/rdtscTimeSource/Makefile\
+		nrEngine.pc])
+
+AC_OUTPUT

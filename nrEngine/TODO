@@ -1,0 +1,5 @@
+
+There are files where types was not rewrited into nrEngine one's.
+For example: int should be int32, float should be float32, ...
+Find this and rewrite all in apropriate type
+

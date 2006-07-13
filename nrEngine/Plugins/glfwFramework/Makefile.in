@@ -71,12 +71,12 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-LDFLAGS = @LDFLAGS@
+LDFLAGS = -L/lib -L/usr/lib -Llib
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LIBOBJS = @LIBOBJS@
-LIBS = @LIBS@
+LIBS = -lglfw -lGL -lGLU -lX11 -lpthread -lm
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -150,12 +150,12 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-INCLUDES = -I$(top_srcdir)/Plugins/rdtscTimeSource/ -I$(top_srcdir)/nrEngine/include
+INCLUDES = -I$(top_srcdir)/Plugins/glfwFramework/ -I$(top_srcdir)/nrEngine/include
 
-OBJECTS = Plugin.o Cpu.o TimeSource.o
+OBJECTS = glfwTask.o Plugin.o
 
-NAME = rdtscTimeSource.so
-subdir = Plugins/rdtscTimeSource
+NAME = glfwBindings.so
+subdir = Plugins/glfwFramework
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/nrEngine/include/config.h
@@ -167,7 +167,7 @@ all: all-am
 .SUFFIXES:
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  Plugins/rdtscTimeSource/Makefile
+	  $(AUTOMAKE) --gnu  Plugins/glfwFramework/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
@@ -305,8 +305,8 @@ all: $(NAME)
 $(OBJECTS): %.o: %.cpp
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDES)
 
-rdtscTimeSource.so: $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBS) $(LDFLAGS) $(PLUGIN_FLAGS)
+glfwBindings.so: $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LDFLAGS) $(LIBS) $(PLUGIN_FLAGS)
 
 install-exec-am:
 install:

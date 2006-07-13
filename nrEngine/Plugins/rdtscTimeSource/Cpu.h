@@ -55,14 +55,14 @@ class Cpu{
 		* to poll for right speed sometimes.
 		**/
 		void calculateSpeed(uint32 calcTimeInMilliseconds = 100);
-		
+
 		/**
 		* Run the rdtsc assembler instruction and return the tick value
 		* to the given variable back.
 		* If such an instruction is not supported, 0 will be given back
 		**/
 		void rdtsc(uint64& ticks);
-		
+
 		/**
 		* Return the name of the Vendor of the CPU
 		**/
@@ -77,7 +77,7 @@ class Cpu{
 		* Generate a string containing all data about the CPU
 		**/
 		NR_FORCEINLINE const std::string& getCPUDescription() const { return m_strDescr; }
-		
+
 		/**
 		* Get  the speed in Hz how fast the CPU is
 		**/
@@ -90,10 +90,10 @@ class Cpu{
 
 		//! Is the high performance tick counter supported
 		NR_FORCEINLINE bool isRDTSC()	{return m_bRDTSC;}
-		
+
 		//! Is MMX supported
 		NR_FORCEINLINE bool isMMX()	{return m_bMMX; }
-		
+
 		//! Is MMX-Ex supported
 		NR_FORCEINLINE bool isMMXEx()	{return m_bMMXEx; }
 
@@ -120,7 +120,7 @@ class Cpu{
 
 		/** Check whenever CPUID - Assembler feature is supported **/
 		bool _cpuidSupported();
-					
+
 		//! CPU Vendor
 		std::string             m_strVendor;
 
@@ -129,7 +129,7 @@ class Cpu{
 
 		//! Formatted description of the CPU
 		std::string				m_strDescr;
-		
+
 		//! Speed of CPU in Hz
 		uint64	m_nSpeed;
 
@@ -138,13 +138,13 @@ class Cpu{
 
 		//! High performance real timer support
 		bool	m_bRDTSC;
-		
+
 		//! MMX support
 		bool	m_bMMX;
 
 		//! Extended MMX support
 		bool	m_bMMXEx;
-		
+
 		//! Streaming SIMD Extensions
 		bool	m_bSSE;
 
@@ -158,8 +158,8 @@ class Cpu{
 		bool	m_b3DNow;
 
 		//! Provide the scripts with information
-		ScriptFunction(getCpuString, Cpu);
-		
+		ScriptFunctionDef(getCpuString);
+
 };
 
 #endif

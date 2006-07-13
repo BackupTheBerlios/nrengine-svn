@@ -22,7 +22,7 @@
 #include "../Kernel.h"
 
 namespace nrEngine{
-		
+
 	//! On of the system base events classes (used by kernel to send information)
 	/**
 	 * KernelEvent is a base class for all possible event classes
@@ -34,17 +34,17 @@ namespace nrEngine{
 	 **/
 	class _NRExport KernelEvent : public EventT<KernelEvent> {
 		public:
-			
+
 			/**
 			 * Get id of a task about which this message is sent.
 			 **/
 			const taskID& getTaskID() const { return mTaskId; }
-			
+
 			/**
 			 * Get the name of the task of the message
 			 **/
 			const std::string& getName() const { return mTaskName; }
-			
+
 		protected:
 
 			//! Only kernel is allowed to change the values here
@@ -56,16 +56,16 @@ namespace nrEngine{
 			 * as if this event were a system event which you are not able
 			 * to send by yourself. Only kernel subsystem could send them around.
 			 **/
-			KernelEvent(Priority prior = Priority::IMMEDIATE);
+			KernelEvent(const std::string& taskName, taskID id, Priority prior = Priority::IMMEDIATE);
 
 			//! Store the id of a task about which we want to send information
 			taskID	mTaskId;
 
 			//! Store the task name
 			std::string mTaskName;
-			
+
 	};
-	
+
 }; // end namespace
 
 #endif

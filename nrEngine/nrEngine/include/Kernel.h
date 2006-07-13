@@ -87,7 +87,7 @@ namespace nrEngine {
 	**/
 	class _NRExport Kernel : public ISingleton<Kernel>{
 	public:
-		
+
 		/**
 		 * Clear all lists and initialize internal variables.
 		 **/
@@ -103,7 +103,27 @@ namespace nrEngine {
 		 */
 		~Kernel();
 
-		
+		/**
+		 * Define if a kernel should send special task events on the
+		 * engines default channel. Task events are used to inform the application
+		 * and the engine, that state of certain tasks is changed.
+		 *
+		 * Actually the engine does not need this events, cause engine's modules
+		 * does not depend on each other, so they do not need this information.
+		 * However your application could require this messages to react to
+		 * certain conditions, i.e. clock task is sleeping
+		 *
+		 * @param bSend if true the events would be sent, if false so kernel is silent
+		 **/
+		void sendEvents(bool bSend = true) { bSendEvents = bSend; }
+
+		/**
+		 * If true, so the kernel is currently inform teh application about
+		 * task state changes by sending messages over the engine's default communication
+		 * channel.
+		 **/
+		bool isSendingEvents() const { return bSendEvents; }
+
 		/**
 		 * Executes the kernel (old school main loop :-)
 		 * Before main loop is started all tasks will be intialized by calling task
@@ -117,7 +137,7 @@ namespace nrEngine {
 		 *		in a log file filled out by the engine's kernel.
 		 **/
 		Result Execute();
-		
+
 		/**
 		 * Executes all task according to their order. After that
 		 * return back. If you call this function for the first time,
@@ -126,12 +146,12 @@ namespace nrEngine {
 		 **/
 		Result OneTick();
 
-			
+
 		/**
 		 * Add the given task into our kernel pipeline (main loop)
 		 * Before task will be added it's \a ITask::taskInit()) function will be executed
 		 * The returned task id number can be used to access to the task through kernel.
-		 * 
+		 *
 		 * \param task - is a smart pointer to an object implementing ITask-Interface
 		 * \param order Order number for this task (default is ORDER_NORMAL)
 		 * \return task id of added task or 0 if task could not be added
@@ -164,7 +184,7 @@ namespace nrEngine {
 		**/
 		Result StartTask	(taskID id);
 
-				
+
 		/**
 		 * Suspend task to prevent it from update. Task will get to sleep.
 		 *
@@ -187,7 +207,7 @@ namespace nrEngine {
 		 **/
 		Result ResumeTask  (taskID id);
 
-		
+
 		/**
 		 * Remove and kill all tasks from the kernel's task list. If no tasks are in the
 		 * list, so the kernel will stop executing.
@@ -197,7 +217,7 @@ namespace nrEngine {
 		 **/
 		Result StopExecution();
 
-		
+
 		/**
 		 * Changes the order number of task with given id
 		 * \param id  id of a task
@@ -209,7 +229,7 @@ namespace nrEngine {
 		 **/
 		Result ChangeTaskOrder(taskID id, taskOrder order = ORDER_NORMAL);
 
-			
+
 		/**
 		 * Returns smart pointer to a task with the given id.
 		 *
@@ -220,7 +240,7 @@ namespace nrEngine {
 
 		/**
 		 * Get the task wich has the same name as the given one.
-		 * 
+		 *
 		 * \param name Unique name of the task
 		 * \return smart poitner to the task or to the NULL if no such task found or task is system task
 		**/
@@ -228,7 +248,7 @@ namespace nrEngine {
 
 		//! Engine is allowed to have full access to the kernel
 		friend class Engine;
-		
+
 		/**
 		* Define the kernel's list names containing tasks.
 		**/
@@ -240,9 +260,9 @@ namespace nrEngine {
 			TL_SLEEPING = 1 << 2
 
 		};
-		
+
 	protected:
-	
+
 		//! Here kernel does store all currently running tasks
 		::std::list< SharedPtr<ITask> > taskList;
 
@@ -251,11 +271,11 @@ namespace nrEngine {
 
 		//! Get information about lock state of the kernel
 		bool areSystemTasksAccessable() { return _bSystemTasksAccessable; }
-				
+
 	private:
 
 		typedef ::std::list< SharedPtr<ITask> >::iterator PipelineIterator;
-		
+
 		/**
 		 * Find the task by task ID.
 		 *
@@ -277,14 +297,14 @@ namespace nrEngine {
 		 * \note This Function runs in O(N) so optimize this if you know how
 		 **/
 		bool _getTaskByName(const ::std::string& name, PipelineIterator& it, int32 useList = TL_RUNNING);
-	
+
 		/**
 		 * Get the list containing all smart pointers of tasks that are in kernel's
 		 * execution list.
 		 **/
 		const ::std::list< SharedPtr<ITask> >& getTaskList(){return taskList;}
 
-		
+
 		/**
 		 * Get list of all paused tasks that are running in the kernel. Paused tasks are tasks
 		 * which were suspended through \a SuspendTask() method.
@@ -331,31 +351,36 @@ namespace nrEngine {
 		**/
 		Result _loopEndCycle();
 
-				
+
 		/**
 		 * This function will start each task and set it's state to running,
 		 * if starting was successful otherwise the task will not run.
 		 **/
 		void startTasks();
-		
+
 		//! Lock the kernel, so kernel gices us access to system tasks
 		void lockSystemTasks();
 
 		//! Unlock the kernel, so it close access to the system tasks
 		void unlockSystemTasks();
-		
+
+		//! Try to start a given task
+		Result _taskStart(SharedPtr<ITask>& task);
+
 		//! Last given task id. Is used to generate new ids for newly added tasks
 		taskID lastTaskID;
-			
+
 		//! If true, so we know that all tasks are started and a list of the tasks is sorted. Only for internal use.
 		bool bTaskStarted;
-	
+
 		//! If it is true, so the kernel is locked for engine access. All next operations until unlock, can access to system tasks
 		bool _bSystemTasksAccessable;
 
 		//! Used by the _loop* Methods
 		static PipelineIterator _loopIterator;
-		
+
+		//! Should kernel send events if states of tasks are changed
+		bool bSendEvents;
 	};
 
 }; // end Namespace

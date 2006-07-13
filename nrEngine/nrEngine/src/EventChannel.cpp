@@ -18,12 +18,12 @@
 #include "Profiler.h"
 
 namespace nrEngine{
-		
+
 	//------------------------------------------------------------------------
 	EventChannel::EventChannel(EventManager* manager, const std::string& name) : mName(name){
 		mParentManager = manager;
 	}
-			
+
 	//------------------------------------------------------------------------
 	EventChannel::~EventChannel(){
 		// disconnect all actors
@@ -35,13 +35,13 @@ namespace nrEngine{
 	{
 		// we first check whenever the actor is already connected
 		if (isConnected(actor->getName())) return EVENT_ALREADY_CONNECTED;
-		
+
 		// connect the actor to the OnEvent - Signal slot
 		mActorDb[actor->getName()] = actor;
-		
+
 		// notice an actor that he is got a connection now
 		if (notice) actor->_noticeConnected(this);
-		
+
 		// Log debug stuff
 		NR_Log(Log::LOG_ENGINE, Log::LL_DEBUG, "EventChannel (%s): New actor connected \"%s\"", getName().c_str(), actor->getName().c_str());
 
@@ -53,10 +53,10 @@ namespace nrEngine{
 	{
 		// we first check whenever the actor is already connected
 		if (!isConnected(actor->getName())) return EVENT_NOT_CONNECTED;
-		
+
 		// disconnect the actor to the OnEvent - Signal slot
 		mActorDb.erase(mActorDb.find(actor->getName()));
-		
+
 		// notice an actor that it is disconnected now
 		if (notice) actor->_noticeDisconnected(this);
 
@@ -74,14 +74,14 @@ namespace nrEngine{
 
 		// some logging
 		NR_Log(Log::LOG_ENGINE, Log::LL_DEBUG, "EventChannel (%s): Disconnect all actors", getName().c_str());
-		
+
 		// iterate through all connections and close them
 		ActorDatabase::iterator it = mActorDb.begin();
 		for (; it != mActorDb.end(); it++){
 			mActorDb.erase(it);
 			it->second->_noticeDisconnected(this);
 		}
-		
+
 	}
 
 	//------------------------------------------------------------------------
@@ -112,7 +112,7 @@ namespace nrEngine{
 		}
 	}
 
-	
+
 	//------------------------------------------------------------------------
 	void EventChannel::deliver()
 	{
@@ -125,7 +125,7 @@ namespace nrEngine{
 			emit(mEventQueue.top());
 			mEventQueue.pop();
 		}
-		
+
 	}
 
 }; // end namespace

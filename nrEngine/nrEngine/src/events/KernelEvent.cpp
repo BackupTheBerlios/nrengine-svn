@@ -16,12 +16,14 @@
 #include "events/KernelEvent.h"
 
 namespace nrEngine{
-		
+
 	//----------------------------------------------------------------------------------
-	KernelEvent::KernelEvent(Priority prior) : EventT<KernelEvent>(prior)
+	KernelEvent::KernelEvent(const std::string& taskName, taskID id, Priority prior)
+		: EventT<KernelEvent>(prior)
 	{
-		mTaskId = 0;
+		mTaskId = id;
+		mTaskName = taskName;
 	}
-	
+
 }; // end namespace
 

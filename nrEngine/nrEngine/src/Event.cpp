@@ -17,17 +17,11 @@
 
 
 namespace nrEngine{
-		
+
 	//------------------------------------------------------------------------
 	Event::~Event()
 	{
 
-	}
-
-	//------------------------------------------------------------------------
-	const std::string& Event::getTypeName()
-	{
-		return mTypeName;
 	}
 
 	//------------------------------------------------------------------------
@@ -37,12 +31,11 @@ namespace nrEngine{
 	}
 
 	//------------------------------------------------------------------------
-	Event::Event(const std::string& typeName, Priority prior)
-				:mTypeName(typeName), mPriority(prior)
+	Event::Event(Priority prior):mPriority(prior)
 	{
 
 	}
 
 
-}; // end namespace	
+}; // end namespace
 

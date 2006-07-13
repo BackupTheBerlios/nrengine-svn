@@ -37,10 +37,10 @@
 #define AMD_MMX_EX_SUPPORTED		(1 << 24)
 
 //--------------------------------------------------------------------
-nrScriptFunction(getCpuString, Cpu){
+ScriptFunctionDec(getCpuString, Cpu){
 
 	Cpu* cpu = ScriptEngine::parameter_cast<Cpu*>(param[0]);
-	
+
 	return ScriptResult(cpu->m_strDescr);
 }
 
@@ -67,7 +67,7 @@ void Cpu::detect()
 		m_strDescr = "Can not retrieve CPU Information, because cpuid instruction is not supported";
 		return;
 	}
-	
+
 	// local variables;
 	char szVendor[13];
 	uint32 eax = 0;
@@ -89,7 +89,7 @@ void Cpu::detect()
 	m_bSSE      = ((edx & SSE_SUPPORTED) != 0);
 	m_bSSE2     = ((edx & SSE2_SUPPORTED) != 0);
 	m_bRDTSC		= ((edx & RDTSC_SUPPORTED) != 0);
-	
+
 	// check for AMD Specific extensions
 	_cpuid(GET_EXTENDED_VALUES, eax, ebx, unused, edx);
 	if(eax >= EXTENDED_VALUES_SUPPORTED)
@@ -127,7 +127,7 @@ void Cpu::calculateSpeed(uint32 calcTimeInMilliseconds)
 	struct timeval tv_start, tv_end;
 	int64 usec_delay;
 
-	// get time through the rdtsc		
+	// get time through the rdtsc
 	rdtsc(nStart);
 	gettimeofday(&tv_start, NULL);
 	NR_sleep(calcTimeInMilliseconds);
@@ -139,7 +139,7 @@ void Cpu::calculateSpeed(uint32 calcTimeInMilliseconds)
 	// calculate the speed of the processor
 	m_fSpeedMhz = static_cast<float32>((nEnd - nStart)) / static_cast<float32>(usec_delay);
 	m_nSpeed = static_cast<uint64>(m_fSpeedMhz * 1000.0f);
-	
+
 }
 
 
@@ -163,9 +163,9 @@ void Cpu::_cpuid(uint32 function, uint32 &out_eax, uint32 &out_ebx, uint32 &out_
 		mov %%ebx, %%esi;	\
 		pop %%ebx			\
 	"
-		: 	"=a"(out_eax), 
-			"=r"(out_ebx), 
-			"=c"(out_ecx), 
+		: 	"=a"(out_eax),
+			"=r"(out_ebx),
+			"=c"(out_ecx),
 			"=d"(out_edx)
 		: 	"a"(function));
 #endif
@@ -186,7 +186,7 @@ bool Cpu::_cpuidSupported()
 	}catch (...) {
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -198,14 +198,14 @@ void Cpu::rdtsc(uint64& ticks)
 		ticks = 0;
 		return;
 	}
-	
+
 	// 2x32 bit variables to hold the ticks
 	uint32 tickLow, tickHigh;
-		
+
 	// get the ticks
 	try{
 	#if NR_PLATFORM == NR_PLATFORM_WIN32
-	
+
 		_asm {
 				rdtsc
 				mov [tickLow], eax
@@ -218,7 +218,7 @@ void Cpu::rdtsc(uint64& ticks)
 		ticks = 0;
 		m_bRDTSC = false;
 	}
-	
+
 	// now combine the two values to produce a single 64 bit value
 	ticks = 0;
 	ticks |= tickHigh;

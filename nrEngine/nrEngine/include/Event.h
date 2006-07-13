@@ -22,7 +22,7 @@
 #include "Exception.h"
 
 namespace nrEngine{
-		
+
 	//! Base untemplated class used for the event instancies
 	/**
 	 * Event is a base untemplated class.
@@ -33,61 +33,11 @@ namespace nrEngine{
 	 **/
 	class _NRExport Event {
 		public:
-			
-			/**
-			* Cast a certain event to another one. As casting we use
-			* dynamic_cast<T>() which will return 0 if casting
-			* can not be done of this kind of objects.
-			*
-			* If casting could not be done, so an exception will be thrown, which
-			* you have to catch.
-			**/
-			template<class T>
-			static T* event_cast(Event* base) throw (Exception)
-			{
-				T* ptr = NULL;		
-				try{
-					ptr = dynamic_cast<T*>(base);
-					if (ptr == NULL) throw(Result(EVENT_COULD_NOT_CAST));
-					
-				}catch (Result i){
-					NR_EXCEPT(i,
-							  "Casting from Event* to given type is not possible",
-							  "Event::event_shared_cast<T>()");
-				}
-				return ptr;
-			}
 
-			/**
-			 * Same as event_cast() but cast now between
-			 * smart pointers.
-			 **/
-			template<class T>
-			static SharedPtr<T> event_shared_cast(SharedPtr<Event> base)  throw (Exception)
-			{
-				SharedPtr<T> ptr;
-				try
-				{
-					ptr = boost::dynamic_pointer_cast<T, Event>(base);
-					if (ptr == NULL) throw(Result(EVENT_COULD_NOT_CAST));
-					
-				}catch (Result i){
-					NR_EXCEPT(i,
-							  "Casting from Event* to given type is not possible",
-							  "Event::event_shared_cast<T>()");
-				}
-				return ptr;
-			}
-		
 			/**
 			 * Release used memory
 			 **/
 			virtual ~Event();
-
-			/**
-			 * Here we get a type name information about this event type.
-			 **/
-			const std::string& getTypeName();
 
 			/**
 			 * Get the priority of this event message.
@@ -102,21 +52,32 @@ namespace nrEngine{
 			 **/
 			template<class U> bool same_as()
 			{
-				// check if the typenames are the same
-				return (mTypeName == typeid(U).name());
+				// we try a dynamic cast if it fails, so types are different
+				U* ptr = dynamic_cast<U*>(this);
+				if (ptr == NULL) return false;
+
+				return true;
 			}
 
-		private:
+			/*template<class U> bool same_as()
+			{
+				// we try a dynamic cast if it fails, so types are different
+				try{
+					U ptr = dynamic_cast<U>(*this);
+				}catch (std::bad_cast s){
+					return false;
+				}
+				return true;
+			}*/
 
-			//! Type name of the class
-			std::string mTypeName;
+		private:
 
 			//! Priority of the message
 			Priority mPriority;
 
 			//! Friend is a templated EventT class
 			template<class T> friend class EventT;
-			
+
 			/**
 			 * Create new instance of a base class Event.
 			 *
@@ -128,11 +89,59 @@ namespace nrEngine{
 			 * We implemented it in this way to hide the internal
 			 * runtime typechecking from the user.
 			 **/
-			Event(const std::string& typeName, Priority prior);
+			Event(Priority prior);
 
 	};
 
-	
+	/**
+	* Cast a certain event to another one. As casting we use
+	* dynamic_cast<T>() which will return 0 if casting
+	* can not be done of this kind of objects.
+	*
+	* If casting could not be done, so an exception will be thrown, which
+	* you have to catch.
+	 *
+	 * \ingroup event
+	**/
+	template<class T>
+	static T* event_cast(Event* base) throw (Exception)
+	{
+		T* ptr = NULL;
+		try{
+			ptr = dynamic_cast<T*>(base);
+			if (ptr == NULL) throw(Result(EVENT_COULD_NOT_CAST));
+
+		}catch (Result i){
+			NR_EXCEPT(i,
+						"Casting from Event* to given type is not possible",
+						"Event::event_shared_cast<T>()");
+		}
+		return ptr;
+	}
+
+	/**
+	* Same as event_cast() but cast now between
+	* smart pointers.
+	 *
+	 * \ingroup event
+	**/
+	template<class T>
+	static SharedPtr<T> event_shared_cast(SharedPtr<Event> base)  throw (Exception)
+	{
+		SharedPtr<T> ptr;
+		try
+		{
+			ptr = boost::dynamic_pointer_cast<T, Event>(base);
+			if (ptr == NULL) throw(Result(EVENT_COULD_NOT_CAST));
+
+		}catch (Result i){
+			NR_EXCEPT(i,
+						"Casting from Event* to given type is not possible",
+						"Event::event_shared_cast<T>()");
+		}
+		return ptr;
+	}
+
 	//! Events are messages used to communicate between application components
 	/**
 	 * An event is a message used to establish a communication between
@@ -144,7 +153,7 @@ namespace nrEngine{
 	 * Derive your events if you want to implement a communication through
 	 * event management system of nrEngine. You can derive your own event
 	 * types by: <code> class NewEvent : public EventT<NewEvent> {} </code>
-	 * 
+	 *
 	 * \ingroup event
 	**/
 	template<class T>
@@ -156,9 +165,9 @@ namespace nrEngine{
 			 * This will cause to create als Event class by specifing
 			 * the typename and the priority to it.
 			 **/
-			EventT(Priority prior) : Event(typeid(T).name(), prior)
+			EventT(Priority prior) : Event(prior)
 			{
-	
+
 			}
 
 
@@ -166,7 +175,9 @@ namespace nrEngine{
 			 * Destructor of the EventT class
 			 **/
 			~EventT(){}
-					
+
+		protected:
+
 	};
 
 }; // end namespace

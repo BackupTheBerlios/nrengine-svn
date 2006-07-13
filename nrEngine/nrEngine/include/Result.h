@@ -31,7 +31,7 @@ namespace nrEngine{
 	* But sometimes engine can not return an error code back (i.e. if error
 	* occurs in a constructor). In this case an exception will be thrown.
 	* Each exception is of the Exception - class.
-	**/ 
+	**/
 
 #define NR_ERR_GROUP(a) 0x01000000 * a
 
@@ -56,13 +56,13 @@ namespace nrEngine{
 
 		//! Engine couldn't allocate a block of memory because (prob.) no memory available
 		OUT_OF_MEMORY		= 1 << 1,
-		
+
 		//! The dator does not contain valid data
 		NOT_VALID_DATOR		= 1 << 2,
 
 
 		//------------------------------------------------------------------------------
-				
+
 		//! This is a general "group error" produced by work on the files
 		FILE_ERROR 			= NR_ERR_GROUP(2),
 
@@ -71,7 +71,7 @@ namespace nrEngine{
 
 		//! If file has got errors by reading out of a line
 		FILE_ERROR_IN_LINE	= FILE_ERROR | (1 << 1),
-	
+
 
 		//------------------------------------------------------------------------------
 
@@ -89,10 +89,10 @@ namespace nrEngine{
 
 		//! If the profile you requesting already exists
 		PROFILE_ALREADY_EXISTS = PROFILE_ERROR | (1 << 3),
-	
+
 
 		//------------------------------------------------------------------------------
-		
+
 		//! This is an error defining the virtual file system error group
 		VFS_ERROR				= NR_ERR_GROUP(4),
 
@@ -132,13 +132,13 @@ namespace nrEngine{
 		//! No such parameter exists
 	 	VFS_NO_PARAMETER		= VFS_ERROR | (1 << 11),
 
-		
+
 		//------------------------------------------------------------------------------
 
-		//! Any error produced by the settings manager is in this group	
+		//! Any error produced by the settings manager is in this group
 		SETTINGS_ERROR			= NR_ERR_GROUP(5),
 
-		//! If you try to register a variable that already registered	
+		//! If you try to register a variable that already registered
 		SETTINGS_VAR_ALREADY_REGISTERED = SETTINGS_ERROR | (1 << 1),
 
 		//! The variable you requesting is not registered
@@ -151,13 +151,13 @@ namespace nrEngine{
 
 		//! There were no task found
 		KERNEL_NO_TASK_FOUND 	= KERNEL_ERROR | (1 << 1),
-	
+
 		//! You do not have rights for this operation
 		KERNEL_NO_RIGHTS		= KERNEL_ERROR | (1 << 2),
 
 		//! The appropriate task is not ready
 		KERNEL_TASK_NOT_READY	= KERNEL_ERROR | (1 << 3),
-	
+
 		//! This error comes if there is a circuit dependencies in the kernel task list
 		KERNEL_CIRCULAR_DEPENDENCY = KERNEL_ERROR | (1 << 4),
 
@@ -172,7 +172,7 @@ namespace nrEngine{
 
 		//! We are on the leaf in the task dependency tree
 		KERNEL_LEAF_TASK	= KERNEL_ERROR | (1 << 8),
-		
+
 		//------------------------------------------------------------------------------
 		//! Our clock subsystem has got also it's own error group
 		CLOCK_ERROR				= NR_ERR_GROUP(7),
@@ -185,8 +185,8 @@ namespace nrEngine{
 
 		//! No time source is currently bounded
 		CLOCK_NO_TIME_SOURCE		= CLOCK_ERROR | (1 << 3),
-		
-		
+
+
 		//------------------------------------------------------------------------------
 		//! There are errors produced by the engine's framework subsystem
 		FW_ERROR				= NR_ERR_GROUP (8),
@@ -205,12 +205,12 @@ namespace nrEngine{
 
 		//! The framework subsystem is not initialized at the moment
 		FW_NOT_INITIALIZED		= FW_ERROR | (1 << 5),
-	
+
 		//! The rendering context couldn't setup the pixel format
 		FW_RC_CANNOT_SETUP_PIXEL_FORMAT = FW_ERROR | (1 << 6),
 
 
-			
+
 		//------------------------------------------------------------------------------
 		//! Each error produced by the resource manager is in this group
 		RES_ERROR				= NR_ERR_GROUP(9),
@@ -244,37 +244,37 @@ namespace nrEngine{
 
 		//! The pointer to the resource is equal to null
 		RES_PTR_IS_NULL				= RES_ERROR | (1 << 10),
-	
+
 		//! The resource type of the given resource is not supported
 		RES_TYPE_NOT_SUPPORTED		= RES_ERROR | (1 << 11),
 
 		//! We can not lock anymore, because the lock state stack is full
 		RES_LOCK_STATE_STACK_IS_FULL= RES_ERROR | (1 << 12),
-		
-		
+
+
 		//------------------------------------------------------------------------------
 		//! This are plugin managment errors
 		PLG_ERROR			= NR_ERR_GROUP(10),
 
 		//! Plugin could not be loaded
 		PLG_COULD_NOT_LOAD		= PLG_ERROR | (1 << 0),
-		
+
 		//! Plugin library could not been initialized
 		PLG_CANNOT_INITIALIZE	= PLG_ERROR | (1 << 1),
-		
+
 		//! Plugin throws an error
 		PLG_EXTERNAL_ERROR		= PLG_ERROR | (1 << 2),
-		
+
 		//! Plugin symbol is not defined
 		PLG_SYMBOL_NOT_FOUND	= PLG_ERROR | (1 << 3),
-		
+
 		//! Plugin version does not accords to the engine's one
 		PLG_WRONG_VERSION		= PLG_ERROR | (1 << 4),
-		
+
 		//! Plugin could not been unloaded properly
 		PLG_UNLOAD_ERROR		= PLG_ERROR | (1 << 5),
-		
-								
+
+
 		//------------------------------------------------------------------------------
 		//! Generic script error
 		SCRIPT_ERROR = NR_ERR_GROUP(11),
@@ -284,10 +284,10 @@ namespace nrEngine{
 
 		//! The function you want register is already in the database
 		SCRIPT_FUNCTION_REGISTERED = SCRIPT_ERROR | (1 << 1),
-			
+
 		//! The function you want access is is not in the database
 		SCRIPT_FUNCTION_NOT_REGISTERED = SCRIPT_ERROR | (1 << 2),
-		
+
 		//------------------------------------------------------------------------------
 		//! Generic event management error
 		EVENT_ERROR = NR_ERR_GROUP(12),
@@ -303,27 +303,27 @@ namespace nrEngine{
 
 		//! The actor is not connected to a certain communication channel
 		EVENT_NOT_CONNECTED = EVENT_ERROR | (1 << 3),
-		
+
 		//! We do not have this event channel in our database
 		EVENT_CHANNEL_NOT_EXISTS = EVENT_ERROR | (1 << 4),
 
 		//! Event of the given type could not be casted to another type
 		EVENT_COULD_NOT_CAST = EVENT_ERROR | (1 << 5),
-		
+
 		//------------------------------------------------------------------------------
 		//! This are general engine layer errors
 		ENGINE_ERROR			= NR_ERR_GROUP(127)
 
-	
+
 	};
 
-	
+
 	//! The result code is only an integer in real \ingroup error
 	typedef uint32		Result;
-		
-	
+
+
 #undef NR_ERR_GROUP
-	
+
 }; // end namespace
 
 

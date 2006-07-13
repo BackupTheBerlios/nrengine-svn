@@ -15,13 +15,13 @@ int main(){
 
 	// initialize the engine
 	Engine* root = new Engine();
-	
+
 	// first try to log, it shouldn't work
 	NR_Log(Log::LOG_CONSOLE, "Das ist ein Log-Test\n");
 	root->getLog()->setEcho(Log::LOG_ENGINE, Log::LOG_CONSOLE);
 	root->getLog()->setEcho(Log::LOG_APP, Log::LOG_CONSOLE);
 	root->getLog()->setLevel(Log::LL_DEBUG);
-	
+
 	// now initialize the logging
 	root->initializeLog("./");
 	root->initializeEngine();
@@ -33,7 +33,7 @@ int main(){
 	int i = 0;
 	Clock::GetSingleton().setFrameWindow(1);
 	Clock::GetSingleton().setSyncInterval(2000);
-	
+
 	// Test engine's components
 	test_plugins(root);
 	test_scripts(root);
@@ -43,10 +43,10 @@ int main(){
 	test_events(root);
 
 	// test main loop
-	while (i < 50)
+	while (i < 10)
 	{
 		NR_ProfileBegin( "Main" );
-		
+
 		{
 			NR_Profile("Update");
 			test_events(root);
@@ -54,20 +54,20 @@ int main(){
 			root->updateEngine();
 			i++;
 		}
-	
-		
+
+
 		// get current time
 		float32 time = Clock::GetSingleton().getTime();
 		NR_Log(Log::LOG_CONSOLE, "Zeit=%f", time);
-		
+
 		NR_ProfileEnd( "Main" );
 	}
-	
+
 	Profiler::GetSingleton().logResults();
-		
+
 	// release the engine
 	delete root;
-		
+
 	return 0;
 }
 
@@ -82,19 +82,19 @@ void test_plugins(Engine* root){
 
 	// get some extra info about the CPU
 	ScriptResult res = ScriptEngine::GetSingleton().call("getCpuString");
-	
+
 	cout << res << endl;
 }
 
 
 class nothing{
 	public:
-		
-		ScriptFunction(tester, nothing);
+
+		ScriptFunctionDef(tester);
 };
 
 
-nrScriptFunction(tester, nothing){
+ScriptFunctionDec(tester, nothing){
 
 	printf("It is running!\n");
 
@@ -121,13 +121,13 @@ void test_scripts(Engine* root){
 class A : public EventT<A>{
 	public:
 		A() : EventT<A>(Priority::FIRST) {}
-		void doStuff() { printf ("This is A event!\n"); }
+		void doStuff() { return; printf ("This is A event!\n"); }
 };
 
 class B : public EventT<B>{
 	public:
 		B() : EventT<B>(Priority::NORMAL) {}
-		void doStuff() { printf ("This is B event!\n"); }
+		void doStuff() { return; printf ("This is B event!\n"); }
 };
 
 
@@ -135,7 +135,7 @@ class Actor1 : public EventActor {
 	public:
 
 		Actor1() : EventActor("actor1") {}
-		
+
 		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
 		{
 			printf("actor1 - ");
@@ -146,26 +146,24 @@ class Actor1 : public EventActor {
 				printf("B\n");
 			else
 				printf("Not supported\n");
-			
+
 		}
-		
+
 };
 
 class Actor2 : public EventActor {
 	public:
 		Actor2() : EventActor("actor2") {}
-		
+
 		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
 		{
 			if (event->same_as<A>()){
 				try{
-					printf("Do cast event\n");
-					SharedPtr<A> a = Event::event_shared_cast<A>(event);
-					printf("Casted from Event - ");
-					a->doStuff();
-				}catch(...){}
-			}else{
-				printf("actor2 - Nothing to do!\n");
+					SharedPtr<A> a = event_shared_cast<A>(event);
+					printf("actor2 - A\n");
+				}catch(...){
+					printf("actor2 - BAD CAST!\n");
+				}
 			}
 		}
 
@@ -186,21 +184,21 @@ void test_events(Engine* root){
 	// now connect new actors to the channel
 	NR_ASSERT(a1.connect("No_Such_Channel") != OK);
 	NR_ASSERT(a1.connect("Channel1") == OK);
-	
+
 	// send both events to the channel
 	NR_ASSERT(EventManager::GetSingleton().emit("Channel1", eventA) == OK);
 	NR_ASSERT(EventManager::GetSingleton().emit("Channel1", eventB) == OK);
-	
+
 	// now deliver all messages
 	//NR_ASSERT(EventManager::GetSingleton().taskUpdate() == OK);
-	
+
 	// connect second actor and send both events again
 	NR_ASSERT(a2.connect("Channel1") == OK);
-	
+
 	// send both events to the channel
 	NR_ASSERT(EventManager::GetSingleton().emit("Channel1", eventA) == OK);
 	NR_ASSERT(EventManager::GetSingleton().emit("Channel1", eventB) == OK);
-	
+
 	// now deliver all messages
 	NR_ASSERT(EventManager::GetSingleton().taskUpdate() == OK);
 

@@ -36,7 +36,7 @@ namespace nrEngine{
 		this->file = file;
 
 		// log the exception
-		_log("", file, source.c_str(), line, "Exception thrown!");
+		_log("\0", file, source.c_str(), line, "Exception thrown!");
 	}
 
 	//-------------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace nrEngine{
 		if (strlen(szFilename)) fprintf(stderr,"File: %s\n", szFilename);
 		if (iLineNum) 			fprintf(stderr,"Line: %d\n", iLineNum);
 		fprintf(stderr,"================================================\n");
-	
+
 		// give message to log engine
 		if (Log::isValid())
 		{
@@ -80,20 +80,20 @@ namespace nrEngine{
 	{
 		if (!exp) _assertMsg(szExp, szFilename, szFuncName, iLineNum);
 	}
-	
+
 	//-------------------------------------------------------------------------
 	void Exception::_assertMsg(const char *szExp, const char *szFilename, const char* szFuncName, int iLineNum){
 
 		// give some log information
 		_log(szExp, szFilename, szFuncName, iLineNum, "Assertion failed!");
-				
+
 		// Try now to delete the engine
 		if (Engine::isValid())
 		{
 			Engine::GetSingleton().stopEngine();
 			Engine::Release();
 		}
-		
+
 		// Now exit the application
 		exit(1);
 	}

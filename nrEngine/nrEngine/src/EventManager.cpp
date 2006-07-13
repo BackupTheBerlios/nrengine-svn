@@ -19,24 +19,24 @@
 
 
 namespace nrEngine{
-		
+
 	//------------------------------------------------------------------------
 	EventManager::EventManager(){
 		setTaskName("EventSystem");
-		
+
 		NR_Log(Log::LOG_ENGINE, "EventManager: Initialize the event management system");
 
 		// create default system wide channel
 		createChannel(NR_DEFAULT_EVENT_CHANNEL);
 	}
-			
+
 	//------------------------------------------------------------------------
 	EventManager::~EventManager()
 	{
 		// clear the database, so all channels are deleted
-		mChannelDb.clear();	
+		mChannelDb.clear();
 	}
-		
+
 	//------------------------------------------------------------------------
 	Result EventManager::createChannel(const std::string& name)
 	{
@@ -49,7 +49,7 @@ namespace nrEngine{
 		// push the channel into the database
 		mChannelDb[name] = channel;
 		NR_Log(Log::LOG_ENGINE, "EventManager: New channel \"%s\" created", name.c_str());
-		
+
 		// OK
 		return OK;
 	}
@@ -64,10 +64,10 @@ namespace nrEngine{
 		// disconnect all the actor from the channel
 		channel->_disconnectAll();
 		mChannelDb.erase(mChannelDb.find(name));
-		
+
 		// log info
 		NR_Log(Log::LOG_ENGINE, "EventManager: Remove channel \"%s\"", name.c_str());
-		
+
 		// OK
 		return OK;
 	}
@@ -77,12 +77,12 @@ namespace nrEngine{
 	{
 		// search for such an entry in the db
 		ChannelDatabase::iterator it = mChannelDb.find(name);
-		
+
 		if (it == mChannelDb.end()) return SharedPtr<EventChannel>();
 
 		return it->second;
 	}
-		
+
 	//------------------------------------------------------------------------
 	Result EventManager::taskUpdate()
 	{
@@ -106,7 +106,7 @@ namespace nrEngine{
 			ChannelDatabase::iterator it = mChannelDb.begin();
 			for (; it != mChannelDb.end(); it++)
 				it->second->push(event);
-			
+
 		}else{
 			// get the channel according to the name and emit the message
 			SharedPtr<EventChannel> channel = getChannel(name);
@@ -115,7 +115,7 @@ namespace nrEngine{
 
 			channel->push(event);
 		}
-		
+
 		// ok
 		return OK;
 	}
@@ -126,5 +126,5 @@ namespace nrEngine{
 		return emit(NR_DEFAULT_EVENT_CHANNEL, event);
 	}
 
-}; // end namespace	
+}; // end namespace
 

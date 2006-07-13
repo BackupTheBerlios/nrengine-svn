@@ -61,41 +61,28 @@
  * of the base Event class. However we will try to give you the possibility of using
  * your own event types derived from the base class in a controlled typesafe way.
  * This means that if you handle correctly, so you will never cast to any wrong
- * class by handling events. 
+ * class by handling events.
+ *
+ * <hr>
+ * Another problem which we have to solve is: How to share event messages between
+ * plugins and application. Assume you compiled your application with the nrEngine
+ * library linked in. Then if you start the app you use the same memory mapping like
+ * the engine does. It means sending now events through the nrEngine's subsystem to
+ * your application is not a big problem. However if you now use plugins which are
+ * dynamic libraries, which are linked dynamicaly while your app is running, this
+ * approach could not work so easy. it means you are still able to send events, but
+ * you now can not convert an event to a type which is provided by the plugin.
+ * (i.e. plugin defines new type of events (NewEvent). Plugin create an instance of
+ * this class and send it to your application, you now not able to cast base class
+ * Event to this NewEvent class). Problem of sharing type information between modules.
+ *
+ * One solution were to forbidd plugins to send any new type of events which was
+ * not declared in the engine before. This solution might work, but then we loose
+ * to generality of our engine, because then we have to implement all things which
+ * are needed for properly use in the engine (graphics, inputs, ...)
+ *
+ * The other solution is to provide the engine TODO !!!!!!
  **/
- 
- /* Our Engine is programmed to be typesafe on events. This means that we do not
- * implement any event type checker ala enumeration or event ids like it does
- * in a many kind of game engines. Instead of this we use polymorphism to overload
- * actions on new events. So how create actors acting only on certain type of events
- * without knowing of all events there exists?!
- *
- * nrEngine::Event class is a class of undefined event type. You derive new event
- * classes from this one to create new type of events. Let B and C be derived from Event.
- * Now in EventActor class you write OnEvent() method to react to this types.
- * Let A_1 and A_2 be an EventActor. Assume you want that A_1 only reacts on event
- * B but not C and A_2 should react on both events. So you define the OnEvent() method
- * in class A_1 as following:
- * <code><br>
- * 	void OnEvent(.., ..B..) { printf("B - "); }<br>
- * 	void OnEvent(.., ..Event..) { printf("Not Supported!") }<br>
- * </code>
- * In the class A_2 you define this functions as following:
- * <code><br>
- * 	void OnEvent(.., ..B..) { printf("B - "); }<br>
- * 	void OnEvent(.., ..C..) { printf("C - "); }<br>
- * 	void OnEvent(.., ..Event..) { printf("Not Supported!") }<br>
- * </code>
- * Compiler will create appropriate code for you, so if you now call
- * <code>A_1.OnEvent(B); A_1.OnEvent(C); </code> the output will be
- * "B - Not Supported!".
- * Calling <code>A_2.OnEvent(B); A_2.OnEvent(C)</code> however will produce output:
- * "B - C -" instead.
- *
- * So you have not used any castings and your objects now react only on certain type
- * of events. Very nice ;)))
- * 
- */
 
 //----------------------------------------------------------------------------------
 // Includes
@@ -104,11 +91,12 @@
 #include "ISingletonTask.h"
 #include "EventChannel.h"
 #include "Event.h"
+#include "EventFactory.h"
 
 namespace nrEngine{
-		
-	
-	//! Main class providing the event messaging system 
+
+
+	//! Main class providing the event messaging system
 	/**
 	 * \par
 	 * EventManager is a class managing the whole event communication
@@ -183,14 +171,38 @@ namespace nrEngine{
 			 * not allowed to send messages here anymore
 			 **/
 			Result emitSystem(SharedPtr<Event> event);
-			
+
 			/**
 			 * Inherited method from the ITask interface. Our event manager
 			 * is updated in each cycle to allow the channels to provide events
 			 * to all connected parties.
 			 **/
 			Result taskUpdate();
-			
+
+			/**
+			 * Call this function if you prefer to create a new event object
+			 * from all registerd factories. The function will go through all
+			 * registered factories and ask them which does support the given
+			 * event type. If one could be found, so create it.
+			 **/
+			SharedPtr<Event> createEvent(const std::string& eventType);
+
+			/**
+			 * Register a new event factory. The given event factory will be
+			 * stored in a list. The factory can later be used to create instancies
+			 * of certain event types.
+			 *
+			 * @param name Unique name of a factory
+			 * @param factory Smart pointer containing the factory object
+			 **/
+			Result registerFactory(const std::string& name, SharedPtr<EventFactory> factory);
+
+			/**
+			 * Delete a registered factory from the list.
+			 **/
+			Result removeFactory(const std::string& name);
+
+
 		private:
 
 			//! Database representing the connection channels by their names
@@ -199,8 +211,14 @@ namespace nrEngine{
 			//! Store the database in this variable
 			ChannelDatabase mChannelDb;
 
+			//! Here we do store event factories able to create new instancies
+			typedef std::map<std::string, SharedPtr<EventFactory> > FactoryDatabase;
+
+			//! Variable to hold the data
+			FactoryDatabase mFactoryDb;
+
 	};
-	
+
 }; // end namespace
 
 #endif

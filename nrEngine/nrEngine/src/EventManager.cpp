@@ -35,6 +35,9 @@ namespace nrEngine{
 	{
 		// clear the database, so all channels are deleted
 		mChannelDb.clear();
+
+		// clear the factory list
+		mFactoryDb.clear();
 	}
 
 	//------------------------------------------------------------------------
@@ -124,6 +127,52 @@ namespace nrEngine{
 	Result EventManager::emitSystem(SharedPtr<Event> event)
 	{
 		return emit(NR_DEFAULT_EVENT_CHANNEL, event);
+	}
+
+
+	//------------------------------------------------------------------------
+	SharedPtr<Event> EventManager::createEvent(const std::string& eventType)
+	{
+		// find the factory, able to create this kind of events
+		FactoryDatabase::iterator it = mFactoryDb.begin();
+		for (; it != mFactoryDb.end(); it++){
+			if (it->second->isSupported(eventType))
+				return it->second->create(eventType);
+		}
+
+		return SharedPtr<Event>();
+	}
+
+	//------------------------------------------------------------------------
+	Result EventManager::registerFactory(const std::string& name, SharedPtr<EventFactory> factory)
+	{
+		// get a factory by name
+		FactoryDatabase::iterator it = mFactoryDb.find(name);
+		if (it != mFactoryDb.end()){
+			NR_Log(Log::LOG_ENGINE, Log::LL_WARNING, "EventManager: The event factory %s is already registered", name.c_str());
+			return EVENT_FACTORY_FOUND;
+		}
+
+		NR_Log(Log::LOG_ENGINE, Log::LL_NORMAL, "EventManager: Register event factory %s", name.c_str());
+		mFactoryDb[name] = factory;
+		return OK;
+	}
+
+	//------------------------------------------------------------------------
+	Result EventManager::removeFactory(const std::string& name)
+	{
+		// check if the the factory list is not empty
+		if (mFactoryDb.size() == 0) return OK;
+
+		// get a factory by name
+		FactoryDatabase::iterator it = mFactoryDb.find(name);
+		if (it == mFactoryDb.end()){
+			NR_Log(Log::LOG_ENGINE, Log::LL_WARNING, "EventManager: The event factory %s was not found", name.c_str());
+			return EVENT_FACTORY_NOT_FOUND;
+		}
+		NR_Log(Log::LOG_ENGINE, Log::LL_NORMAL, "EventManager: Remove event factory %s", name.c_str());
+		mFactoryDb.erase(it);
+		return OK;
 	}
 
 }; // end namespace

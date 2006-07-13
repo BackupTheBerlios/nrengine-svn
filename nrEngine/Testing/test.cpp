@@ -3,9 +3,64 @@
 
 #include <nrEngine/nrEngine.h>
 
+#include "../Plugins/glfwFramework/glfwBindings.h"
+
 using namespace std;
 using namespace nrEngine;
 
+class A : public EventT<A>{
+	public:
+		A() : EventT<A>(Priority::FIRST) {}
+		void doStuff() { return; printf ("This is A event!\n"); }
+};
+
+class B : public EventT<B>{
+	public:
+		B() : EventT<B>(Priority::NORMAL) {}
+		void doStuff() { return; printf ("This is B event!\n"); }
+};
+
+
+class Actor1 : public EventActor {
+	public:
+
+		Actor1() : EventActor("actor1") {}
+
+		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
+		{
+			printf("actor1 - ");
+
+			if (event->same_as<A>())
+				printf("A\n");
+			else if (event->same_as<B>())
+				printf("B\n");
+			else
+				printf("Not supported\n");
+
+		}
+
+};
+
+class Actor2 : public EventActor {
+	public:
+		Actor2() : EventActor("actor2") {}
+
+		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
+		{
+			if (event->same_as<KeyboardEvent>()){
+				try{
+					//SharedPtr<KeyboardPressEvent> a = event_shared_cast<KeyboardPressEvent>(event);
+					printf("actor2 - KEY_PRESS\n");
+				}catch(...){
+					printf("actor2 - BAD CAST!\n");
+				}
+			}else{
+				//SharedPtr<KeyboardPressEvent> a = event_shared_cast<KeyboardPressEvent>(event);
+				printf("actor2 - Not detected!\n");
+			}
+		}
+
+};
 
 void test_plugins(Engine* root);
 void test_scripts(Engine* root);
@@ -42,8 +97,13 @@ int main(){
 	EventManager::GetSingleton().createChannel("Channel1");
 	test_events(root);
 
+	// test for key events
+	Actor2 keysActor;
+	ResourceManager::GetSingleton().loadResource("glfwBindings", "Plugins", "Plugin", "/usr/local/lib/nrEngine/glfwBindings.so");
+	NR_ASSERT(keysActor.connect("glfwTask") == OK);
+
 	// test main loop
-	while (i < 10)
+	while (i < 2)
 	{
 		NR_ProfileBegin( "Main" );
 
@@ -118,62 +178,11 @@ void test_scripts(Engine* root){
 }
 
 
-class A : public EventT<A>{
-	public:
-		A() : EventT<A>(Priority::FIRST) {}
-		void doStuff() { return; printf ("This is A event!\n"); }
-};
-
-class B : public EventT<B>{
-	public:
-		B() : EventT<B>(Priority::NORMAL) {}
-		void doStuff() { return; printf ("This is B event!\n"); }
-};
-
-
-class Actor1 : public EventActor {
-	public:
-
-		Actor1() : EventActor("actor1") {}
-
-		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
-		{
-			printf("actor1 - ");
-
-			if (event->same_as<A>())
-				printf("A\n");
-			else if (event->same_as<B>())
-				printf("B\n");
-			else
-				printf("Not supported\n");
-
-		}
-
-};
-
-class Actor2 : public EventActor {
-	public:
-		Actor2() : EventActor("actor2") {}
-
-		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
-		{
-			if (event->same_as<A>()){
-				try{
-					SharedPtr<A> a = event_shared_cast<A>(event);
-					printf("actor2 - A\n");
-				}catch(...){
-					printf("actor2 - BAD CAST!\n");
-				}
-			}
-		}
-
-};
-
 void test_events(Engine* root){
 
 	// create events and actors
 	Actor1 a1;
-	Actor2 a2;
+	//Actor2 a2;
 	SharedPtr<A> eventA(new A());
 	SharedPtr<B> eventB(new B());
 
@@ -193,7 +202,7 @@ void test_events(Engine* root){
 	//NR_ASSERT(EventManager::GetSingleton().taskUpdate() == OK);
 
 	// connect second actor and send both events again
-	NR_ASSERT(a2.connect("Channel1") == OK);
+	//NR_ASSERT(a2.connect("Channel1") == OK);
 
 	// send both events to the channel
 	NR_ASSERT(EventManager::GetSingleton().emit("Channel1", eventA) == OK);

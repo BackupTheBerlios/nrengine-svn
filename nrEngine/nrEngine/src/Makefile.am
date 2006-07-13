@@ -32,6 +32,7 @@ libnrEngine_la_SOURCES =\
 			EventChannel.cpp\
 			EventActor.cpp\
 			Event.cpp\
+			EventFactory.cpp\
 			events/KernelEvent.cpp
 
 libnrEngine_la_LDFLAGS = $(SHARED_FLAGS) -version-info @NRENGINEMAIN_VERSION_INFO@

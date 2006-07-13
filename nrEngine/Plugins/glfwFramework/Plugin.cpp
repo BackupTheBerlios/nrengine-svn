@@ -1,6 +1,7 @@
 
 #include <nrEngine.h>
 #include "glfwTask.h"
+#include "glfwEventFactory.hpp"
 
 //---------------------------------------------------------
 // Some globals
@@ -48,6 +49,10 @@ extern "C" int plgInitialize(Engine* root)
 		NR_Log(Log::LOG_PLUGIN, Log::LL_ERROR, "glfwBindings: glfwTask could not been added to the kernel");
 		return -1;
 	}
+
+	// now create the factory and register it by the event manager
+	SharedPtr<EventFactory> fc(new InputEventFactory());
+	if (EventManager::isValid()) EventManager::GetSingleton().registerFactory(fc->getName(), fc);
 
 	return 0;
 }

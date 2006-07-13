@@ -310,6 +310,13 @@ namespace nrEngine{
 		//! Event of the given type could not be casted to another type
 		EVENT_COULD_NOT_CAST = EVENT_ERROR | (1 << 5),
 
+		//! A given factory name is already in the database
+		EVENT_FACTORY_FOUND = EVENT_ERROR | (1 << 6),
+
+		//! There is no such factory with the given name
+		EVENT_FACTORY_NOT_FOUND = EVENT_ERROR | (1 << 7),
+
+
 		//------------------------------------------------------------------------------
 		//! This are general engine layer errors
 		ENGINE_ERROR			= NR_ERR_GROUP(127)

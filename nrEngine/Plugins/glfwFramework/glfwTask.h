@@ -19,6 +19,7 @@
 //----------------------------------------------------------------------------------
 #include <nrEngine.h>
 #include "glfw.h"
+#include "glfwBindings.h"
 
 using namespace nrEngine;
 
@@ -58,9 +59,26 @@ class glfwTask : public ITask{
 		 **/
 		Result taskUpdate();
 
+		/**
+		 * Initialise the task by propagating all callback functions
+		 * to the glfw subsystem
+		 **/
+		Result taskInit();
+
 	private:
 
+		//! Engine's root pointer
 		Engine* mEngine;
+
+		//! Call this callback if a key press event was emited from the glfw
+		static void keyCallback(int key, int action);
+
+		//! Call this callback if a character key press event was emited from the glfw
+		static void keyCharCallback(int character, int action);
+
+		//! Convert the glfw key index into engine's one
+		static keyIndex convert(int key);
+
 };
 
 

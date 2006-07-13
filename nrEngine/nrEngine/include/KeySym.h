@@ -21,7 +21,7 @@
  *    not well written engines it can produce performance leck. Do it better*
  *    if you know how.                                                     *
  **************************************************************************/
- 
+
 #ifndef __NR_KEY_SYMS_H_
 #define __NR_KEY_SYMS_H_
 
@@ -35,7 +35,7 @@
  */
 
 namespace nrEngine{
-	
+
 	typedef enum _KeyIndex {
 		/* The keyboard syms have been cleverly chosen to map to ASCII */
 		KEY_UNKNOWN		= 0,
@@ -78,8 +78,8 @@ namespace nrEngine{
 		KEY_GREATER		= 62,
 		KEY_QUESTION		= 63,
 		KEY_AT			= 64,
-		
-		/* 
+
+		/*
 		Skip uppercase letters
 		*/
 		KEY_LEFTBRACKET	= 91,
@@ -116,8 +116,8 @@ namespace nrEngine{
 		KEY_z				= 122,
 		KEY_DELETE		= 127,
 		/* End of ASCII mapped keysyms */
-	
-		
+
+
 		/* International keyboard syms */
 		KEY_WORLD_0		= 160,		/* 0xA0 */
 		KEY_WORLD_1		= 161,
@@ -215,7 +215,7 @@ namespace nrEngine{
 		KEY_WORLD_93		= 253,
 		KEY_WORLD_94		= 254,
 		KEY_WORLD_95		= 255,		/* 0xFF */
-	
+
 		/* Numeric keypad */
 		KEY_KP0		= 256,
 		KEY_KP1		= 257,
@@ -234,7 +234,7 @@ namespace nrEngine{
 		KEY_KP_PLUS		= 270,
 		KEY_KP_ENTER		= 271,
 		KEY_KP_EQUALS		= 272,
-	
+
 		/* Arrows + Home/End pad */
 		KEY_UP			= 273,
 		KEY_DOWN		= 274,
@@ -245,7 +245,7 @@ namespace nrEngine{
 		KEY_END		= 279,
 		KEY_PAGEUP	= 280,
 		KEY_PAGEDOWN	= 281,
-	
+
 		/* Function keys */
 		KEY_F1		= 282,
 		KEY_F2		= 283,
@@ -262,7 +262,7 @@ namespace nrEngine{
 		KEY_F13		= 294,
 		KEY_F14		= 295,
 		KEY_F15		= 296,
-	
+
 		/* Key state modifier keys */
 		KEY_NUMLOCK	= 300,
 		KEY_CAPSLOCK	= 301,
@@ -279,7 +279,7 @@ namespace nrEngine{
 		KEY_RSUPER	= 312,		/* Right "Windows" key */
 		KEY_MODE		= 313,		/* "Alt Gr" key */
 		KEY_COMPOSE	= 314,		/* Multi-key compose key */
-	
+
 		/* Miscellaneous function keys */
 		KEY_HELP		= 315,
 		KEY_PRINT		= 316,
@@ -289,13 +289,13 @@ namespace nrEngine{
 		KEY_POWER		= 320,		/* Power Macintosh power key */
 		KEY_EURO		= 321,		/* Some european keyboards */
 		KEY_UNDO		= 322,		/* Atari keyboard has Undo */
-	
+
 		/* Add any other keys here */
-	
+
 		KEY_LAST
-		
+
 	} keyIndex;
-	
+
 	/* Enumeration of valid key mods (possibly OR'd together) */
 	/*typedef enum {
 		KMOD_NONE  = 0x0000,
@@ -312,24 +312,25 @@ namespace nrEngine{
 		KMOD_MODE  = 0x4000,
 		KMOD_RESERVED = 0x8000
 	} SDLMod;
-	
+
 	#define KMOD_CTRL	(KMOD_LCTRL|KMOD_RCTRL)
 	#define KMOD_SHIFT	(KMOD_LSHIFT|KMOD_RSHIFT)
 	#define KMOD_ALT	(KMOD_LALT|KMOD_RALT)
 	#define KMOD_META	(KMOD_LMETA|KMOD_RMETA)
 	*/
-	
+
 	typedef enum _mouseButtonIndex{
-	
+
 		BUTTON_LEFT,
 		BUTTON_RIGHT,
+		BUTTON_MIDDLE,
 		BUTTON_WHEEL,
 		BUTTON_WHEEL_UP,
 		BUTTON_WHEEL_DOWN,
-	
+
 		BUTTON_COUNT
-	
+
 	} mouseButtonIndex;
-	
-}; // end namespace	
+
+}; // end namespace
 #endif

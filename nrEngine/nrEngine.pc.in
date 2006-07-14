@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: nrEngine
 Description: Small Object-Oriented Game Engine
 Version: @VERSION@
-Libs: -L${libdir} -lnrEngine
+Libs: -L${libdir} -lnrEngine -L${libdir}/nrEngine
 Cflags: -I${includedir} @NRENGINE_CFLAGS@

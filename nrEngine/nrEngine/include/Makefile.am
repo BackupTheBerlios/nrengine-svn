@@ -43,6 +43,7 @@ pkginclude_HEADERS =	Kernel.h\
 			EventActor.h\
 			Event.h\
 			EventFactory.h\
-			SmartPtr.h
+			SmartPtr.h\
+			Binding.h
 
  

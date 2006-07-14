@@ -36,5 +36,6 @@
 
 #include "ScriptEngine.h"
 #include "EventManager.h"
+#include "Binding.h"
 
 #endif

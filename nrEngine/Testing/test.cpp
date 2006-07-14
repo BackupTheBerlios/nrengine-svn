@@ -3,10 +3,11 @@
 
 #include <nrEngine/nrEngine.h>
 
-#include "../Plugins/glfwFramework/glfwBindings.h"
+#include <nrEngine/Bindings/glfw/Binding.h>
 
 using namespace std;
 using namespace nrEngine;
+using namespace nrBinding;
 
 class A : public EventT<A>{
 	public:
@@ -47,7 +48,7 @@ class Actor2 : public EventActor {
 
 		void OnEvent(const EventChannel& channel, SharedPtr<Event> event)
 		{
-			if (event->same_as<KeyboardEvent>()){
+			if (event->same_as<glfw::KeyboardPressEvent>()){
 				try{
 					//SharedPtr<KeyboardPressEvent> a = event_shared_cast<KeyboardPressEvent>(event);
 					printf("actor2 - KEY_PRESS\n");
@@ -101,8 +102,9 @@ int main(){
 	Actor2 keysActor;
 	//ResourceManager::GetSingleton().loadResource("glfwBindings", "Plugins", "Plugin", "/usr/local/lib/nrEngine/glfwBindings.so");
 	//EventManager::GetSingleton().createChannel("glfwTask");
-	glfwBindings_Init(root);
-	NR_ASSERT(keysActor.connect("glfwTask") == OK);
+	glfw::Binding::Instantiate();
+	glfw::Binding::GetSingleton().createWindow(640, 480, false);
+	NR_ASSERT(keysActor.connect(glfw::Binding::getChannelName()) == OK);
 
 	// test main loop
 	while (i < 2)

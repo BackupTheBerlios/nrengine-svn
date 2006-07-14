@@ -10,86 +10,96 @@
  *                                                                         *
  ***************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- * glfwBindings.h -                                                        *
- *        glfwBindings is a plugin for the nrEngine. This header file does *
- *        define all extra features used in this plugin. There are events  *
- *        which are send by the plugin on inputs or on window manipulations*
- *        To properly react on this events you have to know how they are   *
- *        constructed. There are also some classes provided by the plugin. *
- *                                                                         *
- ***************************************************************************/
-
-#ifndef __GLFW_BINDINGS_H_
-#define __GLFW_BINDINGS_H_
+#ifndef __GLFW_BINDINGS_PLUGIN_H_
+#define __GLFW_BINDINGS_PLUGIN_H_
 
 //----------------------------------------------------------------------------------
 // Includes
 //----------------------------------------------------------------------------------
 #include <nrEngine/nrEngine.h>
+#include "Event.h"
 
-//----------------------------------------------------------------------------------
-// Event subsysystem definition of the glfwBindings plugin
-//----------------------------------------------------------------------------------
+namespace nrBinding {
 
-//namespace glfwBindings
-//{
+	namespace glfw {
 
-	//! Initialize the system
-	void glfwBindings_Init(nrEngine::Engine* root);
+		//! Main class of the glfw binding
+		/**
+		* Binding is a main class of the glfw loadtime plugin (or binding).
+		* It is declared as a singleton, so it can be created only once.
+		* This will initialize the subsysems like glfw framework and
+		* event management. So you have to create a instance of this class
+		* to provide the user the functionality of this binding.
+		**/
+		class _NRExport Binding : public nrEngine::Binding, public nrEngine::ISingleton<Binding>{
 
-	/**
-	* KeyboardEvent - is commited if there is any changes on the state of keyboard keys.
-	*
-	* For key mapping we use the mapping already provided with the engine. We do not
-	* want to write our own, because then the applications using other plugins for
-	* the input may get into troubles.
-	*
-	**/
-	class _NRExport KeyboardEvent : public nrEngine::EventT<KeyboardEvent>{
+			public:
 
-		public:
+				/**
+				* Default constructor used, to create instance and
+				* to initialize all underlying systems.
+				*
+				* NOTE: You have to instantiate a class after initialization
+				* 		of the engine, otherwise exception will be thrown
+				**/
+				Binding();
 
-			//! Constructor
-			KeyboardEvent(nrEngine::keyIndex key) : nrEngine::EventT<KeyboardEvent>(nrEngine::Priority::NORMAL) { mKey = key; }
+				/**
+				* Release used memory. Close glfw subsystem and close
+				* the task running in the kernel
+				**/
+				~Binding();
 
-			//! Destructor non virtual
-			~KeyboardEvent() {}
+				/**
+				 * @see nrEngine::Binding::getName()
+				 **/
+				const std::string& getName();
 
-			/**
-			* This returns a key index of a key whichs state changes.
-			* The message contain information only about one key, so
-			* you have to store the states somewhere in between, or use
-			* provided plugin methods, to get state information
-			* on the keys.
-			**/
-			nrEngine::keyIndex getKey() { return mKey; }
+				/**
+				 * @see nrEngine::Binding::getFullName()
+				 **/
+				const std::string& getFullName();
 
-		private:
+				/**
+				 * Open a window where all OpenGL operations access on.
+				 *
+				 * @param width,height Size of the window
+				 * @param fullscreen If true, create fullscreen
+				 * @param bpp Colorbuffer bit depth (default 32)
+				 * @param depth Depthbuffer bit depth (default 24)
+				 * @param stencil Stencilbuffer bit depth (default 8)
+				 * @return true if it succeeds, false otherwise. See log files
+				 **/
+				bool createWindow(nrEngine::int32 width, nrEngine::int32 height, bool fullscreen, nrEngine::int32 bpp = 32, nrEngine::int32 depth = 24, nrEngine::int32 stencil = 8);
 
-			//! Key whichs state is changed
-			nrEngine::keyIndex mKey;
+				/**
+				 * Close the window and kill all used OpenGL contexts
+				 **/
+				void closeWindow();
 
+				/**
+				 * Get the name of the message channel where events are
+				 * published
+				 **/
+				static const std::string& getChannelName();
+
+			private:
+
+				//! Task object of the bindings
+				SharedPtr<nrEngine::ITask>	mTask;
+
+				//! Name of the binding
+				std::string mName;
+
+				//! Full name
+				std::string mFullName;
+
+				//! Callback function to close the window
+				static nrEngine::int32 closeWindowCallback();
+
+		};
 	};
-
-	/**
-	* KeyboardPressEvent is commited if a key was pressed
-	**/
-	class KeyboardPressEvent : public KeyboardEvent {
-		public:
-			KeyboardPressEvent(nrEngine::keyIndex key = nrEngine::KEY_UNKNOWN) : KeyboardEvent(key) {}
-	};
-
-	/**
-	* KeyboardReleaseEvent would be emited if a key was released
-	**/
-	class KeyboardReleaseEvent : public KeyboardEvent {
-		public:
-			KeyboardReleaseEvent(nrEngine::keyIndex key = nrEngine::KEY_UNKNOWN) : KeyboardEvent(key) {}
-	};
-
-//}
+};
 
 #endif
 

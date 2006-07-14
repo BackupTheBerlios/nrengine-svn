@@ -1,11 +1,11 @@
 AC_PREREQ(2.50)
 
-AC_INIT([nrEngine], [0.0.5])
+AC_INIT([nrEngine], [0.0.6])
 
 AC_CANONICAL_TARGET
 
 # Define config files and lib name
-AM_INIT_AUTOMAKE([nrEngine], [0.0.5])
+AM_INIT_AUTOMAKE([nrEngine], [0.0.6])
 AM_CONFIG_HEADER([nrEngine/include/config.h])
 
 dnl Check for programs
@@ -46,7 +46,7 @@ LDFLAGS="$LDFLAGS $BOOST_SIGNALS_LIB"
 dnl versioning info for libtool
 NRENGINEMAIN_CURRENT=0
 NRENGINEMAIN_AGE=0
-NRENGINEMAIN_REVISION=5
+NRENGINEMAIN_REVISION=6
 NRENGINEMAIN_VERSION_INFO=$NRENGINEMAIN_CURRENT:$NRENGINEMAIN_REVISION:$NRENGINEMAIN_AGE
 AC_SUBST(NRENGINEMAIN_VERSION_INFO)
 
@@ -64,7 +64,8 @@ AC_CONFIG_FILES([Makefile\
 		doc/dias/Makefile\
 		Plugins/Makefile\
 		Plugins/rdtscTimeSource/Makefile\
-		Plugins/glfwFramework/Makefile\
+		Bindings/Makefile\
+		Bindings/glfw/Makefile\
 		nrEngine.pc])
 
 AC_OUTPUT

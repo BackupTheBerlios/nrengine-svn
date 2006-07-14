@@ -1,1 +1,1 @@
-SUBDIRS = rdtscTimeSource glfwFramework
+SUBDIRS = rdtscTimeSource

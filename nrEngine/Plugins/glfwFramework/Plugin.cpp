@@ -57,6 +57,11 @@ extern "C" int plgInitialize(Engine* root)
 	return 0;
 }
 
+//------------------------------------------------------------
+void glfwBindings_Init(Engine* root)
+{
+	plgInitialize(root);
+}
 
 //---------------------------------------------------------
 // Get the engines version number for which this plugin was wrote

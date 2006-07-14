@@ -5,7 +5,6 @@
 
 #define TASK_NAME "glfwTask"
 
-
 //------------------------------------------------------------
 glfwTask::glfwTask(Engine* root) : mEngine(root)
 {

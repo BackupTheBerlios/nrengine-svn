@@ -99,7 +99,9 @@ int main(){
 
 	// test for key events
 	Actor2 keysActor;
-	ResourceManager::GetSingleton().loadResource("glfwBindings", "Plugins", "Plugin", "/usr/local/lib/nrEngine/glfwBindings.so");
+	//ResourceManager::GetSingleton().loadResource("glfwBindings", "Plugins", "Plugin", "/usr/local/lib/nrEngine/glfwBindings.so");
+	//EventManager::GetSingleton().createChannel("glfwTask");
+	glfwBindings_Init(root);
 	NR_ASSERT(keysActor.connect("glfwTask") == OK);
 
 	// test main loop

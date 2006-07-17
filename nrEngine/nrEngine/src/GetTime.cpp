@@ -15,10 +15,10 @@
 //----------------------------------------------------------------------------------
 #include "GetTime.h"
 
-namespace nrEngine{
+//namespace nrEngine{
 		
 	//------------------------------------------------------------------------
-#if NR_COMPILER == NR_COMPILER_MSVC || NR_PLATFORM == NR_PLATFORM_WIN32
+#if NR_PLATFORM == NR_PLATFORM_WIN32
    int gettimeofday(struct timeval* tv, void* placeholder) 
    {
       union {
@@ -33,5 +33,5 @@ namespace nrEngine{
    }
 #endif
 		
-}; // end namespace	
+//}; // end namespace	
 

@@ -59,14 +59,14 @@ namespace nrEngine{
 	void Log::log(LogTarget target, const char* msg, ...)
 	{
 		// check whenver we have already initialised the log engine
-		if (logPath.length() == 0){
+		/*if (logPath.length() == 0){
 			static bool warned = false;
 			if (warned == false){
 				logIt(LOG_CONSOLE, LL_WARNING, "You can not log messages before you initialize the log engine");
 				warned = true;
 			}
 			return;
-		}
+		}*/
 			
 		// get messages 
 		va_list args; 
@@ -91,14 +91,14 @@ namespace nrEngine{
 	{
 	
 		// check whenver we have already initialised the log engine
-		if (logPath.length() == 0){
+		/*if (logPath.length() == 0){
 			static bool warned = false;
 			if (warned == false){
 				logIt(LOG_CONSOLE, LL_WARNING, "You can not log messages before you initialize the log engine");
 				warned = true;
 			}
 			return;
-		}
+		}*/
 			
 		// get messages 
 		va_list args; 

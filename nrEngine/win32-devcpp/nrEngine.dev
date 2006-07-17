@@ -2,7 +2,7 @@
 FileName=nrEngine.dev
 Name=nrEngine
 UnitCount=84
-Type=2
+Type=3
 Ver=1
 ObjFiles=
 Includes=D:\nrEngine\nrEngine\include;D:\boost_tiny
@@ -12,7 +12,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=-DBUILDING_DLL=1_@@_
 CppCompiler=-DBUILDING_DLL=1_@@_
-Linker=--no-export-all-symbols --add-stdcall-alias_@@_
+Linker=--export-all-symbols_@@_
 IsCpp=1
 Icon=
 ExeOutput=
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=1
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000000001000000000
+CompilerSettings=0000000000001000010000
 
 [Unit1]
 FileName=..\nrEngine\src\Clock.cpp

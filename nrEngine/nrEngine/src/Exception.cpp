@@ -52,15 +52,19 @@ namespace nrEngine{
 	//-------------------------------------------------------------------------
 	void Exception::_log(const char *szExp, const char *szFilename, const char* szFuncName, int iLineNum, const char* msg)
 	{
-		// Give message on the console
-		fprintf(stderr,"================================================\n");
-		fprintf(stderr,"%s!\n", msg);
-		if (strlen(szFuncName)) fprintf(stderr,"Func: %s\n)", szFuncName);
-		if (strlen(szExp)) 		fprintf(stderr,"Expr: (%s)\n", szExp);
-		if (strlen(szFilename)) fprintf(stderr,"File: %s\n", szFilename);
-		if (iLineNum) 			fprintf(stderr,"Line: %d\n", iLineNum);
-		fprintf(stderr,"================================================\n");
+		#if NR_PLATFORM != NR_PLATFORM_WIN32
 
+			// Give message on the console
+			fprintf(stderr,"================================================\n");
+			fprintf(stderr,"%s!\n", msg);
+			if (strlen(szFuncName)) fprintf(stderr,"Func: %s\n)", szFuncName);
+			if (strlen(szExp)) 		fprintf(stderr,"Expr: (%s)\n", szExp);
+			if (strlen(szFilename)) fprintf(stderr,"File: %s\n", szFilename);
+			if (iLineNum) 			fprintf(stderr,"Line: %d\n", iLineNum);
+			fprintf(stderr,"================================================\n");
+
+		#endif
+		
 		// give message to log engine
 		if (Log::isValid())
 		{
@@ -72,6 +76,7 @@ namespace nrEngine{
 			if (iLineNum) 			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "Line: %d", iLineNum);
 			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "================================================");
 		}
+	
 
 	}
 
@@ -93,6 +98,17 @@ namespace nrEngine{
 			Engine::GetSingleton().stopEngine();
 			Engine::Release();
 		}
+
+		// if wondows, so show a message box
+		#if NR_PLATFORM == NR_PLATFORM_WIN32
+			std::string msg;
+			msg += std::string("Assertion Failed!\n");
+			if (strlen(szFuncName)) msg += std::string("Func: ") +  std::string(szFuncName) + "\n";
+			if (strlen(szExp)) 		msg += "Expr: " + std::string(szExp) + "\n";
+			if (strlen(szFilename)) msg += "File: " + std::string(szFilename) + "\n";
+			if (iLineNum) 			msg += "Line: " + boost::lexical_cast<std::string>(iLineNum)+ "\n";
+			MessageBox(NULL, msg.c_str(), (std::string("nrEngine v") +  NR_convertVersionToString(nrEngineVersion) + std::string(" ") + NR_VERSION_NAME).c_str(), MB_OK | MB_ICONERROR);
+		#endif
 
 		// Now exit the application
 		exit(1);

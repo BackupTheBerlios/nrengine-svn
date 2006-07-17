@@ -26,11 +26,11 @@
    #if !defined(_WINSOCK2API_) && !defined(_WINSOCKAPI_)
        #ifndef NR_WIN32_TIMEVAL
        #define NR_WIN32_TIMEVAL
-             struct timeval 
+             /*struct timeval 
              {
                 long tv_sec;
                 long tv_usec;
-             };
+             };*/
        #endif
    #endif 
    int gettimeofday(struct timeval* tv, void* placeholder);

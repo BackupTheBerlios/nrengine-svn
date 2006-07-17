@@ -46,7 +46,7 @@ namespace nrEngine {
 	* @see ::boost.org for smart pointers
 	* \ingroup gp
 	**/
-	struct null_deleter{
+	struct _NRExport null_deleter{
 		void operator()(void const *) const
 		{
 		}
@@ -79,7 +79,7 @@ namespace nrEngine {
 					int32 offset = (int32)(Obj*)1 - (int32)(ISingleton <Obj>*)(T*)1;
 					_ms_singleton = (T*)((int32)this + offset);
 				#else
-					_ms_singleton = (static_cast< Obj* >( this ));
+					_ms_singleton = (dynamic_cast< Obj* >( this ));
 				#endif
 			}
 	

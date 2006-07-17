@@ -90,32 +90,37 @@ namespace nrEngine {
 		for( it = taskList.begin(); it != taskList.end();){
 
 			SharedPtr<ITask> &t=(*it);
-			thisIt = it;
-			it ++;
+			bool killed = false;
 
 			// check if task is valid
 			if (t.get()){
+
 				// kill task if we need this
 				if(t->_taskCanKill){
+
+					// erase it
 					NR_Log(Log::LOG_KERNEL, "Stop task \"%s\" (id=%d) before removing",t->taskGetName(), t->getTaskID());
 					t->taskStop();
-					tempID = t->getTaskID();
-					taskList.erase(thisIt);
-					NR_Log(Log::LOG_KERNEL, "Task (id=%d) removed", tempID);
 
 					// send a message about current task state
-					if (bSendEvents){
+					if (bSendEvents && EventManager::isValid()){
 						SharedPtr<Event> msg(new KernelStopTaskEvent(t->taskGetName(), t->getTaskID()));
 						EventManager::GetSingleton().emitSystem(msg);
 					}
 
-				}
+					// remove the task
+					tempID = t->getTaskID();
+					NR_Log(Log::LOG_KERNEL, "Task (id=%d) removed", tempID);
+					it = taskList.erase(it);
+					killed = true;
 
 				// check whenver order of the task was changed by outside
-				if (t->_orderChanged){
+				}else if (t->_orderChanged){
 					ChangeTaskOrder(t->getTaskID(), t->getTaskOrder());
 				}
 			}
+
+			if (!killed) it++;
 		}
 
 		return OK;

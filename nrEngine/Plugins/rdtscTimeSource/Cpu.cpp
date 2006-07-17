@@ -124,7 +124,7 @@ void Cpu::calculateSpeed(uint32 calcTimeInMilliseconds)
 {
 	// Code is borrowed from SDL-Library - Thanks for That!
 	uint64	nStart, nEnd;
-	struct timeval tv_start, tv_end;
+	struct nrEngine::timeval tv_start, tv_end;
 	int64 usec_delay;
 
 	// get time through the rdtsc
@@ -146,7 +146,7 @@ void Cpu::calculateSpeed(uint32 calcTimeInMilliseconds)
 //--------------------------------------------------------------------
 void Cpu::_cpuid(uint32 function, uint32 &out_eax, uint32 &out_ebx, uint32 &out_ecx, uint32 &out_edx)
 {
-#if NR_PLATFORM == NR_PLATFORM_WIN32
+#if NR_PLATFORM == NR_PLATFORM_WIN32 && NR_COMPILER == NR_COMPILER_MSVC
 	_asm
 	{
 		cpuid
@@ -175,7 +175,7 @@ void Cpu::_cpuid(uint32 function, uint32 &out_eax, uint32 &out_ebx, uint32 &out_
 bool Cpu::_cpuidSupported()
 {
 	try {
-	#if NR_PLATFORM == NR_PLATFORM_WIN32
+	#if NR_PLATFORM == NR_PLATFORM_WIN32 && NR_COMPILER == NR_COMPILER_MSVC
 		_asm {
 				xor eax, eax
 				cpuid
@@ -204,7 +204,7 @@ void Cpu::rdtsc(uint64& ticks)
 
 	// get the ticks
 	try{
-	#if NR_PLATFORM == NR_PLATFORM_WIN32
+	#if NR_PLATFORM == NR_PLATFORM_WIN32 && NR_COMPILER == NR_COMPILER_MSVC
 
 		_asm {
 				rdtsc

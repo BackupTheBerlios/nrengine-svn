@@ -1,8 +1,8 @@
 [Project]
 FileName=nrEngine.dev
 Name=nrEngine
-UnitCount=85
-Type=3
+UnitCount=84
+Type=2
 Ver=1
 ObjFiles=
 Includes=D:\nrEngine\nrEngine\include;D:\boost_tiny
@@ -448,16 +448,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit41]
-FileName=..\nrEngine\include\EventType.h
-CompileCpp=1
-Folder=nrEngine
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit42]
 FileName=..\nrEngine\include\Exception.h
 CompileCpp=1
 Folder=nrEngine
@@ -467,7 +457,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit43]
+[Unit42]
 FileName=..\nrEngine\include\FileStream.h
 CompileCpp=1
 Folder=nrEngine
@@ -477,7 +467,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit44]
+[Unit43]
 FileName=..\nrEngine\include\FileStreamLoader.h
 CompileCpp=1
 Folder=nrEngine
@@ -487,7 +477,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit45]
+[Unit44]
 FileName=..\nrEngine\include\FileSystemManager.h
 CompileCpp=1
 Folder=nrEngine
@@ -497,7 +487,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit46]
+[Unit45]
 FileName=..\nrEngine\include\GetTime.h
 CompileCpp=1
 Folder=nrEngine
@@ -507,7 +497,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit47]
+[Unit46]
 FileName=..\nrEngine\include\IDator.h
 CompileCpp=1
 Folder=nrEngine
@@ -517,7 +507,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit48]
+[Unit47]
 FileName=..\nrEngine\include\IFileSystem.h
 CompileCpp=1
 Folder=nrEngine
@@ -527,7 +517,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit49]
+[Unit48]
 FileName=..\nrEngine\include\IScript.h
 CompileCpp=1
 Folder=nrEngine
@@ -537,7 +527,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit50]
+[Unit49]
 FileName=..\nrEngine\include\ISingleton.h
 CompileCpp=1
 Folder=nrEngine
@@ -547,7 +537,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit51]
+[Unit50]
 FileName=..\nrEngine\include\ISingletonTask.h
 CompileCpp=1
 Folder=nrEngine
@@ -557,7 +547,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit52]
+[Unit51]
 FileName=..\nrEngine\include\IStream.h
 CompileCpp=1
 Folder=nrEngine
@@ -567,7 +557,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit53]
+[Unit52]
 FileName=..\nrEngine\include\ITask.h
 CompileCpp=1
 Folder=nrEngine
@@ -577,7 +567,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit54]
+[Unit53]
 FileName=..\nrEngine\include\ITimeObserver.h
 CompileCpp=1
 Folder=nrEngine
@@ -587,7 +577,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit55]
+[Unit54]
 FileName=..\nrEngine\include\Kernel.h
 CompileCpp=1
 Folder=nrEngine
@@ -597,7 +587,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit56]
+[Unit55]
 FileName=..\nrEngine\include\KeySym.h
 CompileCpp=1
 Folder=nrEngine
@@ -607,7 +597,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit57]
+[Unit56]
 FileName=..\nrEngine\include\Log.h
 CompileCpp=1
 Folder=nrEngine
@@ -617,7 +607,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit58]
+[Unit57]
 FileName=..\nrEngine\include\NameValuePairs.h
 CompileCpp=1
 Folder=nrEngine
@@ -627,7 +617,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit59]
+[Unit58]
 FileName=..\nrEngine\include\nrEngine.h
 CompileCpp=1
 Folder=nrEngine
@@ -637,7 +627,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit60]
+[Unit59]
 FileName=..\nrEngine\include\Platform.h
 CompileCpp=1
 Folder=nrEngine
@@ -647,7 +637,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit61]
+[Unit60]
 FileName=..\nrEngine\include\Plugin.h
 CompileCpp=1
 Folder=nrEngine
@@ -657,7 +647,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit62]
+[Unit61]
 FileName=..\nrEngine\include\PluginLoader.h
 CompileCpp=1
 Folder=nrEngine
@@ -667,7 +657,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit63]
+[Unit62]
 FileName=..\nrEngine\include\Prerequisities.h
 CompileCpp=1
 Folder=nrEngine
@@ -677,7 +667,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit64]
+[Unit63]
 FileName=..\nrEngine\include\Priority.h
 CompileCpp=1
 Folder=nrEngine
@@ -687,7 +677,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit65]
+[Unit64]
 FileName=..\nrEngine\include\Profiler.h
 CompileCpp=1
 Folder=nrEngine
@@ -697,7 +687,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit66]
+[Unit65]
 FileName=..\nrEngine\include\Resource.h
 CompileCpp=1
 Folder=nrEngine
@@ -707,7 +697,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit67]
+[Unit66]
 FileName=..\nrEngine\include\ResourceHolder.h
 CompileCpp=1
 Folder=nrEngine
@@ -717,7 +707,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit68]
+[Unit67]
 FileName=..\nrEngine\include\ResourceLoader.h
 CompileCpp=1
 Folder=nrEngine
@@ -727,7 +717,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit69]
+[Unit68]
 FileName=..\nrEngine\include\ResourceManager.h
 CompileCpp=1
 Folder=nrEngine
@@ -737,7 +727,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit70]
+[Unit69]
 FileName=..\nrEngine\include\ResourcePtr.h
 CompileCpp=1
 Folder=nrEngine
@@ -747,7 +737,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit71]
+[Unit70]
 FileName=..\nrEngine\include\ResourceSystem.h
 CompileCpp=1
 Folder=nrEngine
@@ -757,7 +747,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit72]
+[Unit71]
 FileName=..\nrEngine\include\Result.h
 CompileCpp=1
 Folder=nrEngine
@@ -767,7 +757,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit73]
+[Unit72]
 FileName=..\nrEngine\include\Script.h
 CompileCpp=1
 Folder=nrEngine
@@ -777,7 +767,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit74]
+[Unit73]
 FileName=..\nrEngine\include\ScriptEngine.h
 CompileCpp=1
 Folder=nrEngine
@@ -787,7 +777,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit75]
+[Unit74]
 FileName=..\nrEngine\include\ScriptLoader.h
 CompileCpp=1
 Folder=nrEngine
@@ -797,7 +787,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit76]
+[Unit75]
 FileName=..\nrEngine\include\SmartPtr.h
 CompileCpp=1
 Folder=nrEngine
@@ -807,7 +797,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit77]
+[Unit76]
 FileName=..\nrEngine\include\StdHeaders.h
 CompileCpp=1
 Folder=nrEngine
@@ -817,7 +807,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit78]
+[Unit77]
 FileName=..\nrEngine\include\StdHelpers.h
 CompileCpp=1
 Folder=nrEngine
@@ -827,7 +817,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit79]
+[Unit78]
 FileName=..\nrEngine\include\Timer.h
 CompileCpp=1
 Folder=nrEngine
@@ -837,7 +827,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit80]
+[Unit79]
 FileName=..\nrEngine\include\TimeSource.h
 CompileCpp=1
 Folder=nrEngine
@@ -847,7 +837,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit81]
+[Unit80]
 FileName=..\nrEngine\include\events\KernelTaskEvent.h
 CompileCpp=1
 Folder=nrEngine
@@ -857,7 +847,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit82]
+[Unit81]
 FileName=..\nrEngine\include\events\EngineEvent.h
 CompileCpp=1
 Folder=nrEngine
@@ -867,7 +857,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit83]
+[Unit82]
 FileName=..\nrEngine\include\events\KernelEvent.h
 CompileCpp=1
 Folder=nrEngine
@@ -877,8 +867,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit84]
+[Unit83]
 FileName=..\nrEngine\src\events\KernelEvent.cpp
+CompileCpp=1
+Folder=nrEngine
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit84]
+FileName=..\nrEngine\src\GetTime.cpp
 CompileCpp=1
 Folder=nrEngine
 Compile=1

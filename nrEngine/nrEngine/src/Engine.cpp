@@ -10,7 +10,7 @@
  *                                                                         *
  ***************************************************************************/
 
- 
+
 #include "Engine.h"
 #include "Kernel.h"
 #include "Clock.h"
@@ -46,7 +46,7 @@ namespace nrEngine{
 		{
 			NR_EXCEPT(OUT_OF_MEMORY, "Clock could not be created. Probably memory is full", "Engine::Engine()");
 		}
-			
+
 	}
 
 	//------------------------------------------------------------------------
@@ -60,16 +60,16 @@ namespace nrEngine{
 
 		// remove the manager
 		_resmgr.reset();
-				
+
 		// delete the clock
 		_clock.reset();
-		
+
 		// delete the kernel
 		_kernel.reset();
 
 		// remove profiler
 		_profiler.reset();
-						
+
 		// delete the log system
 		_logger.reset();
 
@@ -86,7 +86,7 @@ namespace nrEngine{
 	{
 		// give log information
 		_logger->log(Log::LOG_ENGINE, "nrEngine stopped");
-		
+
 		// stop kernel tasks
 		Kernel::GetSingleton().StopExecution();
 
@@ -96,12 +96,12 @@ namespace nrEngine{
 	{
 		// give some info about the underlying engine
 		NR_Log(Log::LOG_ENGINE | Log::LOG_CONSOLE | Log::LOG_KERNEL, "nrEngine v%s - %s", NR_convertVersionToString(nrEngineVersion).c_str(), NR_VERSION_NAME);
-			
+
 		// detect the cpu and write some log info
 		//NR_Log(Log::LOG_ENGINE, "Retrieve CPU Information");
 		//_cpu->detect();
 		//NR_Log(Log::LOG_ENGINE, "%s", _cpu->getCPUDescription().c_str());
-		
+
 		// initialize the clock
 		SharedPtr<TimeSource> timeSource(new TimeSource());
 
@@ -114,16 +114,16 @@ namespace nrEngine{
 		_clock->setTimeSource(timeSource);
 		_clock->setTaskType(TASK_SYSTEM);
 		_clock->AddToKernel((*_kernel), ORDER_SYS_FIRST);
-		
+
 		// initialize the scripting engine
 		_script.reset(new ScriptEngine());
 		if (_script == NULL)
 			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "Scripting Engine could not been created. Check if the memory is not full");
-			
+
 		// initialize resource manager singleton
 		_resmgr.reset(new ResourceManager());
 		if (_resmgr == NULL)
-			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "Resource manager singleton could not be created. Probably memory is full");		
+			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "Resource manager singleton could not be created. Probably memory is full");
 
 		// initialize resource manager singleton
 		_event.reset(new EventManager());
@@ -132,11 +132,11 @@ namespace nrEngine{
 
 		_event->setTaskType(TASK_SYSTEM);
 		_event->AddToKernel((*_kernel), ORDER_SYS_SECOND);
-		
+
 		// Add the file reading functionality
 		SharedPtr<FileStreamLoader> fileLoader (new FileStreamLoader());
 		_resmgr->registerLoader("FileStreamLoader", fileLoader);
-				
+
 		// create an instance of plugin loader and add it to the resource manager
 		ResourceLoader loader ( new PluginLoader() );
 		_resmgr->registerLoader("PluginLoader", loader);
@@ -144,20 +144,20 @@ namespace nrEngine{
 		// create default event communication channel to allow
 		// comunication between engine's components
 		_event->createChannel(NR_DEFAULT_EVENT_CHANNEL);
-		
+
 		return true;
 	}
-	
+
 	//------------------------------------------------------------------------
 	void Engine::runEngine()
 	{
-	
+
 		// log info
 		_logger->log(Log::LOG_ENGINE, "nrEngine started");
 
 		// start the kernel
 		_kernel->Execute();
-		
+
 	}
 
 	//------------------------------------------------------------------------
@@ -167,7 +167,7 @@ namespace nrEngine{
 		_kernel->OneTick();
 	}
 
-			
+
 	//------------------------------------------------------------------------
 	bool Engine::loadPlugin(const std::string& path, const std::string& file, const std::string& name)
 	{
@@ -176,7 +176,7 @@ namespace nrEngine{
 			NR_Log(Log::LOG_ENGINE, Log::LL_ERROR, "Engine was not initialized properly");
 			return UNKNOWN_ERROR;
 		}
-		
+
 		// try to load the resource and check for the error code
 		IResourcePtr plg = _resmgr->loadResource(name, "Plugins", "Plugin", path + file);
 
@@ -185,13 +185,13 @@ namespace nrEngine{
 
 		return true;
 	}
-	
+
 	//------------------------------------------------------------------------
 	//Plugin getPlugin(const std::string& name){
-		
+
 	//}
 
-	
+
 }; // end namespace
 
 #if 0
@@ -207,10 +207,10 @@ namespace nrEngine{
 	char str[256];
 	sprintf(str, "%x", res);
 
-#define _ERROR(p) case p: sprintf(str, #p);break;	
-	
+#define _ERROR(p) case p: sprintf(str, #p);break;
+
 	switch (res){
-	
+
 _ERROR(NR_OK)
 _ERROR(NR_UNKNOWN_ERROR)
 _ERROR(NR_BAD_PARAMETERS)
@@ -228,7 +228,7 @@ _ERROR(NR_PROFILE_ALREADY_EXISTS)
 
 _ERROR(NR_EXTENSION_ERROR)
 _ERROR(NR_EXTENSION_NOT_SUPPORTED)
-  
+
 _ERROR(NR_VFS_ERROR)
 _ERROR(NR_VFS_ALREADY_OPEN)
 _ERROR(NR_VFS_CANNOT_OPEN)
@@ -293,7 +293,7 @@ _ERROR(NR_RES_LOADER_NOT_EXISTS	)
 		default:
 			sprintf(str,"%x", res);
 	}
-	
+
 #undef _ERROR
 	return str;
 }*/

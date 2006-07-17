@@ -295,7 +295,7 @@ namespace nrEngine {
 			t->setTaskID(++lastTaskID);
 			taskList.insert (it,t);
 
-			NR_Log(Log::LOG_KERNEL, "Task \"%s\" was added TaskID=%d",t->taskGetName(), t.get(), t->getTaskID());
+			//NR_Log(Log::LOG_KERNEL, "Task \"%s\" was added TaskID=%d",t->taskGetName(), t.get(), t->getTaskID());
 
 		} catch(...){
 			return UNKNOWN_ERROR;

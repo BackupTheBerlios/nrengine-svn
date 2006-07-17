@@ -51,7 +51,7 @@ namespace nrEngine {
 		{
 		}
 	};
-	
+
 	//! Singleton declaration used to prevent creating of more than one instance of a class
 	/**
 	* ISingleton class is used to define an object as an only one possible.
@@ -67,9 +67,9 @@ namespace nrEngine {
 
 		protected:
 			static Obj* _ms_singleton;//::boost::scoped_ptr<Obj> _ms_singleton;
-			
+
 		public:
-		
+
 			/**
 			* Create a singleton object of the given instance
 			*/
@@ -79,10 +79,10 @@ namespace nrEngine {
 					int32 offset = (int32)(Obj*)1 - (int32)(ISingleton <Obj>*)(T*)1;
 					_ms_singleton = (T*)((int32)this + offset);
 				#else
-					_ms_singleton = (dynamic_cast< Obj* >( this ));
+					_ms_singleton = (static_cast< Obj* >( this ));
 				#endif
 			}
-	
+
 			/**
 			* Delete the singleton object created before.
 			**/
@@ -90,22 +90,22 @@ namespace nrEngine {
 				//ISingleton<Obj>::Release();
 				_ms_singleton = NULL;
 			}
-	
-			
+
+
 			/**
 			* Access instance directly through -> operator. Can be overloaded
 			**/
 			virtual Obj* operator->(){
 				return GetSingletonPtr();
 			}
-		
+
 			/**
 			* @return true if singleton object exists, false otherwise
 			**/
 			static NR_FORCEINLINE bool isValid(){
 				return (_ms_singleton != NULL);
 			}
-		
+
 			/**
 			* @return smart pointer to our singleton
 			**/
@@ -113,15 +113,15 @@ namespace nrEngine {
 				SharedPtr<Obj> _ptr(GetSingletonPtr(), null_deleter());
 				return _ptr;
 			}
-			
+
 			/**
 			* @return reference to singleton instance
 			**/
 			static NR_FORCEINLINE Obj& GetSingleton(){
 				NR_ASSERT(_ms_singleton && "GetSingleton: No Singleton Object created until now");
-				return *_ms_singleton;			
+				return *_ms_singleton;
 			}
-		
+
 			/**
 			* @return Pointer to singleton instance
 			**/
@@ -129,8 +129,8 @@ namespace nrEngine {
 				NR_ASSERT(_ms_singleton && "GetSingletonPtr: No Singleton Object created until now");
 				return _ms_singleton;
 			}
-	
-					
+
+
 			/**
 			* Create the singleton instance of an object of type <i>Obj</i>
 			**/
@@ -138,15 +138,15 @@ namespace nrEngine {
 				//_ms_singleton.reset (new Obj());
 				new Obj();
 			}
-		
-		
+
+
 			/**
 			* Create the singleton instance of an object of type <i>Derived</i> which is
 			* derived class of the <i>Obj</i> Base instance.
 			* You ask here: Why we do it in this way?
 			* So the answer is: You can so access to your base object. But it was
 			* created from subclass. Usefull for example for objects which's base has
-			* pure virtual functions.	
+			* pure virtual functions.
 			*/
 			template<class Derived>
 			static NR_FORCEINLINE void InstantiateAs(){
@@ -154,7 +154,7 @@ namespace nrEngine {
 				//_ms_singleton.reset (new Derived());
 				new Derived();
 			}
-			
+
 			/**
 			* Release the instance and free used memory
 			**/
@@ -163,12 +163,12 @@ namespace nrEngine {
 				if (_ms_singleton != NULL)
 					delete _ms_singleton;
 			}
-		
+
 	};
-	
+
 	template <class Obj>
 	Obj*	ISingleton<Obj>::_ms_singleton = NULL;
 	//::boost::scoped_ptr<Obj> ISingleton<Obj>::_ms_singleton(0);
-	
+
 }; // end namespace
 #endif	//_NRCSINGLETON_H_

@@ -10,25 +10,22 @@ LINKOBJ  = ../nrEngine/src/Clock.o ../nrEngine/src/VariadicArgument.o ../nrEngin
 LIBS =  -L"C:/Dev-Cpp/lib" --export-all-symbols  -mwindows 
 INCS =  -I"C:/Dev-Cpp/include"  -I"D:/nrEngine/nrEngine/include"  -I"D:/boost_tiny" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"D:/nrEngine/nrEngine/include"  -I"D:/boost_tiny" 
-BIN  = nrEngine.dll
+BIN  = nrEngine.a
 CXXFLAGS = $(CXXINCS) -DBUILDING_DLL=1   -O3 -mwindows
 CFLAGS = $(INCS) -DBUILDING_DLL=1   -O3 -mwindows
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before nrEngine.dll all-after
+all: all-before nrEngine.a all-after
 
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
-DLLWRAP=dllwrap.exe
-DEFFILE=libnrEngine.def
-STATICLIB=libnrEngine.a
-
 $(BIN): $(LINKOBJ)
-	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+	ar r $(BIN) $(LINKOBJ)
+	ranlib $(BIN)
 
 ../nrEngine/src/Clock.o: ../nrEngine/src/Clock.cpp
 	$(CPP) -c ../nrEngine/src/Clock.cpp -o ../nrEngine/src/Clock.o $(CXXFLAGS)

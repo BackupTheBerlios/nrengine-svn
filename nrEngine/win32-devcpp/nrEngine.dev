@@ -2,7 +2,7 @@
 FileName=nrEngine.dev
 Name=nrEngine
 UnitCount=84
-Type=3
+Type=2
 Ver=1
 ObjFiles=
 Includes=D:\nrEngine\nrEngine\include;D:\boost_tiny

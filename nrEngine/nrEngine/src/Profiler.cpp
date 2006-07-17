@@ -105,7 +105,7 @@ namespace nrEngine{
 			f.frameTime = 0;
 			f.frameTotalTime = 0;
 			f.calls = 0;
-			f.hierarchicalLvl = (uint) mProfiles.size();
+			f.hierarchicalLvl = (uint32) mProfiles.size();
 			mProfileFrame.push_back(f);
 		}
 	

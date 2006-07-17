@@ -89,7 +89,7 @@
 //----------------------------------------------------------------------------
 // Windows Settings
 #if NR_PLATFORM == NR_PLATFORM_WIN32
-
+#include <windows.h>
 // If we're not including this from a client build, specify that the stuff
 // should get exported. Otherwise, import it.
 #	if defined( __MINGW32__ )

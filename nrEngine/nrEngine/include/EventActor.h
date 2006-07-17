@@ -19,8 +19,6 @@
 //----------------------------------------------------------------------------------
 #include "Prerequisities.h"
 #include "Event.h"
-#include <boost/signal.hpp>
-#include <boost/signals/trackable.hpp>
 
 namespace nrEngine{
 		

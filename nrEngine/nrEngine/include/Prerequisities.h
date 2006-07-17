@@ -147,5 +147,6 @@ namespace nrEngine{
 #include "KeySym.h"
 #include "StdHelpers.h"
 #include "SmartPtr.h"
+#include "GetTime.h"
 
 #endif

@@ -70,7 +70,7 @@ namespace nrEngine{
 	* \ingroup plugin
 	**/
 	#if NR_PLATFORM == NR_PLATFORM_WIN32
-		struct HINSTANCE__;
+		//struct HINSTANCE__;
 		typedef struct HINSTANCE__* PluginHandle;
 	#elif NR_PLATFORM == NR_PLATFORM_LINUX
 		typedef void* PluginHandle;

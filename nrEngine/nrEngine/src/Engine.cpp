@@ -202,7 +202,7 @@ namespace nrEngine{
  * @param res - error code to be converted in string
  * \ingroup engine
  **/
-string	nrErrorGetShort(nrResult res){
+/*string	nrErrorGetShort(nrResult res){
 
 	char str[256];
 	sprintf(str, "%x", res);
@@ -296,5 +296,5 @@ _ERROR(NR_RES_LOADER_NOT_EXISTS	)
 	
 #undef _ERROR
 	return str;
-}
+}*/
 #endif

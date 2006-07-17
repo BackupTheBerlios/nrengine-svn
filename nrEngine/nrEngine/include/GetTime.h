@@ -19,7 +19,7 @@
 //----------------------------------------------------------------------------------
 #include "Prerequisities.h"
 
-namespace nrEngine{
+//namespace nrEngine{
 
 #if NR_COMPILER == NR_COMPILER_MSVC || NR_PLATFORM == NR_PLATFORM_WIN32
    #include <time.h>
@@ -38,6 +38,7 @@ namespace nrEngine{
    #include <sys/time.h>
 #endif 
 
-}; // end namespace
+//}; // end namespace
+
 
 #endif

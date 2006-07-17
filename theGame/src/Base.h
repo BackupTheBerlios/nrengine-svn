@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 #include <assert.h>
 #include <nrEngine/nrEngine.h>
-#include <Bindings/glfw/Binding.h>
+#include <nrEngine/Bindings/glfw/Binding.h>
 
 
 //------------------------------------------------------------------------------

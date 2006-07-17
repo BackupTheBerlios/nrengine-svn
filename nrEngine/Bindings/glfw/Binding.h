@@ -78,6 +78,11 @@ namespace nrBinding {
 				void closeWindow();
 
 				/**
+				 * Set window data, as title, position and size
+				 **/
+				void setWindow(const std::string& title, nrEngine::int32 width = 0, nrEngine::int32 height = 0);
+
+				/**
 				 * Get the name of the message channel where events are
 				 * published
 				 **/

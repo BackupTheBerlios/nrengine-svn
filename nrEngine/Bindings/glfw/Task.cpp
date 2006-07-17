@@ -54,15 +54,19 @@ namespace nrBinding {
 		//------------------------------------------------------------
 		Result Task::taskInit()
 		{
-			// propaget the key callback function
-			glfwSetKeyCallback(keyCallback);
-			glfwSetCharCallback(keyCharCallback);
-
 			// create a communication channel
 			EventManager::GetSingleton().createChannel(Task::ChannelName);
 
 			// ok
 			return OK;
+		}
+
+		//------------------------------------------------------------
+		void Task::noticeWindowCreated()
+		{
+			// propaget the key callback function
+			glfwSetKeyCallback(keyCallback);
+			glfwSetCharCallback(keyCharCallback);
 		}
 
 		//------------------------------------------------------------
@@ -91,13 +95,13 @@ namespace nrBinding {
 			if (action == GLFW_PRESS){
 
 				// send a message that the key was pressed
-				msg.reset(new KeyboardPressEvent(nrkey));
+				msg.reset(new OnKeyboardPressEvent(nrkey));
 
 			// key is released
 			}else if (action == GLFW_RELEASE){
 
 				// send a message that key was released
-				msg.reset(new KeyboardReleaseEvent(nrkey));
+				msg.reset(new OnKeyboardReleaseEvent(nrkey));
 
 			}
 

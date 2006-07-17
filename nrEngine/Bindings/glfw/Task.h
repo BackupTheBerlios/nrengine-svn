@@ -65,6 +65,11 @@ namespace nrBinding {
 				nrEngine::Result taskInit();
 
 				/**
+				 * Window was opened, so do the stuff needed for this
+				 **/
+				void noticeWindowCreated();
+
+				/**
 				 * Get the channel name where events are commited
 				 **/
 				static const std::string& getChannelName() ;

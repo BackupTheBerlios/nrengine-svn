@@ -18,23 +18,31 @@ Result App::init(){
 
 	// check if we are already initialized
 	if (mInitialized) return OK;
+fprintf(stderr, "HALLO\n");
 
 	// we initialize the nrEngine and setup logging facilities
 	Engine::Instantiate();
+fprintf(stderr, "HALLO\n");
+
+	Engine::GetSingleton().initializeLog("log/");
+	Engine::GetSingleton().initializeEngine();
+fprintf(stderr, "HALLO\n");
+
+    // setup logging echoes
 	Log::GetSingleton().setEcho(Log::LOG_ENGINE, Log::LOG_CONSOLE);
 	Log::GetSingleton().setEcho(Log::LOG_APP, Log::LOG_CONSOLE);
 	Log::GetSingleton().setLevel(Log::LL_DEBUG);
 
-	// now initialize the logging and engine
-	Engine::GetSingleton().initializeLog("log/");
-	Engine::GetSingleton().initializeEngine();
+fprintf(stderr, "HALLO\n");
 
 	// initialize the glfw binding
 	glfw::Binding::Instantiate();
+fprintf(stderr, "HALLO\n");
 
 	// create the game task and add it into kernel
 	SharedPtr<ITask> game (new GameTask(this));
 	Kernel::GetSingleton().AddTask(game, ORDER_NORMAL);
+fprintf(stderr, "HALLO\n");
 
 	// ok
 	mInitialized = true;

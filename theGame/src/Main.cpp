@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
 	ret = App::GetSingleton().init();
 	if (ret != OK){return -1;}
 
-	ret = App::GetSingleton().start();
+/*	ret = App::GetSingleton().start();
 	if (ret != OK){return -1;}
 
 	ret = App::GetSingleton().loop();
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
 
 	ret = App::GetSingleton().close();
 	if (ret != OK){return -1;}
-
+*/
 	App::GetSingleton().Release();
 
 	// OK

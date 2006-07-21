@@ -33,7 +33,9 @@ AC_CHECK_LIB(dl, dlopen)
 AC_CHECK_FUNC(snprintf, AC_DEFINE(HAVE_SNPRINTF,,snprintf))
 AC_CHECK_FUNC(vsnprintf, AC_DEFINE(HAVE_VSNPRINTF,,vsnprintf))
 
-
+dnl Check for boost libraries
+AX_BOOST_BASE
+AX_BOOST_THREAD
 
 # Setup our own compiler flags
 CFLAGS="-O2  -fomit-frame-pointer -Wall -Werror"
@@ -41,7 +43,8 @@ CXXFLAGS="-O2  -fomit-frame-pointer -Wall -Werror"
 #CFLAGS="$CFLAGS -O2 -Wall -Werror"
 #CXXFLAGS="$CXXFLAGS -O2 -Wall -Werror"
 #LIBS="$LIBS $BOOST_SIGNALS_LIB"
-LDFLAGS="$LDFLAGS"
+
+LDFLAGS="$LDFLAGS $BOOST_THREAD_LIB"
 
 dnl versioning info for libtool
 NRENGINEMAIN_CURRENT=0
@@ -51,8 +54,8 @@ NRENGINEMAIN_VERSION_INFO=$NRENGINEMAIN_CURRENT:$NRENGINEMAIN_REVISION:$NRENGINE
 AC_SUBST(NRENGINEMAIN_VERSION_INFO)
 
 
-NRENGINE_CFLAGS=
-AC_SUBST(NRENGINE_CFLAGS)
+#NRENGINE_CFLAGS=
+#AC_SUBST(NRENGINE_CFLAGS)
 
 dnl Create the makefiles
 AC_CONFIG_FILES([Makefile\

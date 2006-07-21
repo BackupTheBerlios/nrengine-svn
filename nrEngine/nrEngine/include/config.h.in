@@ -6,6 +6,12 @@
 /* Little endian machine */
 #undef CONFIG_LITTLE_ENDIAN
 
+/* define if the Boost library is available */
+#undef HAVE_BOOST
+
+/* define if the Boost::Date_Time library is available */
+#undef HAVE_BOOST_THREAD
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 

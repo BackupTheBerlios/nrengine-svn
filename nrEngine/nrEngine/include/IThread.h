@@ -20,6 +20,7 @@
 #include "Prerequisities.h"
 
 #include <boost/thread/thread.hpp>
+#include <boost/thread/mutex.hpp>
 
 namespace nrEngine{
 
@@ -176,7 +177,13 @@ namespace nrEngine{
 			};
 
 			//! This is a variable which will manage the thread state
-			ThreadState	mThreadState;
+			volatile ThreadState	mThreadState;
+
+			//! Mutex to lock the data before use
+			boost::mutex mMutex;
+
+			//! Change a thread to new state, use mutex to lock the state
+			void changeState(ThreadState newState);
 
 	};
 

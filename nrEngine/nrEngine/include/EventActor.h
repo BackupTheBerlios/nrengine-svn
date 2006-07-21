@@ -21,8 +21,8 @@
 #include "Event.h"
 
 namespace nrEngine{
-		
-	
+
+
 	//! Event actors could acts as a server and client on event communication channels
 	/**
 	 * \par
@@ -79,7 +79,7 @@ namespace nrEngine{
 			 * @param name Unique name of the channel to disconnect
 			 **/
 			Result disconnect(const std::string& name);
-			
+
 		protected:
 
 			//! Unique name of an actor in the channel
@@ -93,7 +93,7 @@ namespace nrEngine{
 
 			//! EventManager which this actor belongs to
 			//EventManager* mParentManager;
-			
+
 			//! Check whenever we are already connected to a channel
 			bool isConnected (const std::string& name);
 
@@ -107,9 +107,9 @@ namespace nrEngine{
 			 * Notice an actor that he is disconnected now.
 			 **/
 			void _noticeDisconnected(EventChannel* channel);
-			
+
 	};
-	
+
 }; // end namespace
 
 #endif

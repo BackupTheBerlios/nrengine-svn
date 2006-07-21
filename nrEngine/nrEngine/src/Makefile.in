@@ -156,6 +156,7 @@ libnrEngine_la_SOURCES = \
 			Engine.cpp\
 			Kernel.cpp\
 			ITask.cpp\
+			IThread.cpp\
 			Log.cpp\
 			Exception.cpp\
 			Clock.cpp\
@@ -196,14 +197,15 @@ CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libnrEngine_la_LIBADD =
-am_libnrEngine_la_OBJECTS = Engine.lo Kernel.lo ITask.lo Log.lo \
-	Exception.lo Clock.lo Timer.lo TimeSource.lo StdHelpers.lo \
-	Profiler.lo ResourceHolder.lo ResourcePtr.lo ResourceLoader.lo \
-	ResourceManager.lo Resource.lo Plugin.lo PluginLoader.lo \
-	IStream.lo FileStream.lo FileStreamLoader.lo IFileSystem.lo \
-	IScript.lo Script.lo ScriptLoader.lo ScriptEngine.lo \
-	VariadicArgument.lo EventManager.lo EventChannel.lo \
-	EventActor.lo Event.lo EventFactory.lo KernelEvent.lo
+am_libnrEngine_la_OBJECTS = Engine.lo Kernel.lo ITask.lo IThread.lo \
+	Log.lo Exception.lo Clock.lo Timer.lo TimeSource.lo \
+	StdHelpers.lo Profiler.lo ResourceHolder.lo ResourcePtr.lo \
+	ResourceLoader.lo ResourceManager.lo Resource.lo Plugin.lo \
+	PluginLoader.lo IStream.lo FileStream.lo FileStreamLoader.lo \
+	IFileSystem.lo IScript.lo Script.lo ScriptLoader.lo \
+	ScriptEngine.lo VariadicArgument.lo EventManager.lo \
+	EventChannel.lo EventActor.lo Event.lo EventFactory.lo \
+	KernelEvent.lo
 libnrEngine_la_OBJECTS = $(am_libnrEngine_la_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/nrEngine/include
@@ -219,9 +221,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/FileStreamLoader.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/IFileSystem.Plo ./$(DEPDIR)/IScript.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/IStream.Plo ./$(DEPDIR)/ITask.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/Kernel.Plo ./$(DEPDIR)/KernelEvent.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/Log.Plo ./$(DEPDIR)/Plugin.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/PluginLoader.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/IThread.Plo ./$(DEPDIR)/Kernel.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/KernelEvent.Plo ./$(DEPDIR)/Log.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Plugin.Plo ./$(DEPDIR)/PluginLoader.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Profiler.Plo ./$(DEPDIR)/Resource.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ResourceHolder.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ResourceLoader.Plo \
@@ -304,6 +306,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IScript.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IStream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ITask.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IThread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Kernel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/KernelEvent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Log.Plo@am__quote@

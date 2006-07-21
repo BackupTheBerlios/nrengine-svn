@@ -195,7 +195,8 @@ pkginclude_HEADERS = Kernel.h\
 			EventFactory.h\
 			SmartPtr.h\
 			Binding.h\
-			GetTime.h
+			GetTime.h\
+			IThread.h
 
 subdir = nrEngine/include
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

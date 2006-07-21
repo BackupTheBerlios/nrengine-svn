@@ -5,6 +5,7 @@ libnrEngine_la_SOURCES =\
 			Engine.cpp\
 			Kernel.cpp\
 			ITask.cpp\
+			IThread.cpp\
 			Log.cpp\
 			Exception.cpp\
 			Clock.cpp\

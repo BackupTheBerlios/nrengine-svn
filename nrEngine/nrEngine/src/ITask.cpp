@@ -20,7 +20,7 @@
 namespace nrEngine{
 
 	//--------------------------------------------------------------------
-	ITask::ITask(){
+	ITask::ITask() : IThread(){
 		_taskCanKill = false;
 		_taskOrder = ORDER_NORMAL;
 		_taskID = 0;
@@ -28,6 +28,7 @@ namespace nrEngine{
 		_orderChanged = false;
 		_taskType = TASK_USER;
 		_taskGraphColor = 0;
+		_isTaskRunAsThread = false;
 		setTaskName("");
 	}
 
@@ -42,7 +43,7 @@ namespace nrEngine{
 		_taskGraphColor = 0;
 		strncpy(_taskName, name.c_str(), 63);
 	}
-	
+
 	//--------------------------------------------------------------------
 	ITask::~ITask(){
 
@@ -67,7 +68,7 @@ namespace nrEngine{
 	bool ITask::operator >  (const ITask &t){
 		return !(*this <= t) ;
 	}
-	
+
 	//--------------------------------------------------------------------
 	bool ITask::operator >= (const ITask &t){
 		return !(*this < t) || (*this == t);
@@ -113,7 +114,7 @@ namespace nrEngine{
 	taskState ITask::getTaskState() const{
 		return _taskState;
 	}
-	
+
 	//--------------------------------------------------------------------
 	void ITask::setTaskType(taskType type){
 		this->_taskType = type;
@@ -123,7 +124,7 @@ namespace nrEngine{
 	void ITask::setTaskID(taskID id){
 		this->_taskID = id;
 	}
-	
+
 	//--------------------------------------------------------------------
 	void ITask::setTaskState(taskState state){
 		this->_taskState = state;
@@ -133,14 +134,14 @@ namespace nrEngine{
 	void ITask::setTaskName(const ::std::string& name){
 		strncpy(_taskName, name.c_str(), 63);
 	}
-	
+
 	//--------------------------------------------------------------------
 	Result ITask::addDependency(taskID id)
 	{
 		_taskDependencies.push_back(id);
 
 		NR_Log(Log::LOG_KERNEL, Log::LL_DEBUG, "Task %s depends now on task id=%i", taskGetName(), id);
-		
+
 		return OK;
 	}
 
@@ -156,6 +157,25 @@ namespace nrEngine{
 		return addDependency(pTask->getTaskID());
 	}
 
-	
+	//--------------------------------------------------------------------
+	void ITask::_noticeSuspend(){
+		taskOnSuspend();
+	}
+
+	//--------------------------------------------------------------------
+	void ITask::_noticeResume(){
+		taskOnResume();
+	}
+
+	//--------------------------------------------------------------------
+	void ITask::_noticeUpdate(){
+		taskUpdate();
+	}
+
+	//--------------------------------------------------------------------
+	void ITask::_noticeStop(){
+		taskStop();
+	}
+
 }; // end namespace
 

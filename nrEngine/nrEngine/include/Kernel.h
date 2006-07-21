@@ -154,9 +154,10 @@ namespace nrEngine {
 		 *
 		 * \param task - is a smart pointer to an object implementing ITask-Interface
 		 * \param order Order number for this task (default is ORDER_NORMAL)
+		 * \param isThread If true, so run the task as a parallel thread
 		 * \return task id of added task or 0 if task could not be added
 		 **/
-		taskID AddTask (SharedPtr<ITask> task, taskOrder order = ORDER_NORMAL);
+		taskID AddTask (SharedPtr<ITask> task, taskOrder order = ORDER_NORMAL, bool isThread = false);
 
 		/**
 		 * Remove the task from our game loop (pipeline).
@@ -366,6 +367,9 @@ namespace nrEngine {
 
 		//! Try to start a given task
 		Result _taskStart(SharedPtr<ITask>& task);
+
+		//! Stop the given task
+		Result _taskStop(SharedPtr<ITask>& task);
 
 		//! Last given task id. Is used to generate new ids for newly added tasks
 		taskID lastTaskID;

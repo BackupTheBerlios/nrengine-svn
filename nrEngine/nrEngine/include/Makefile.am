@@ -45,6 +45,7 @@ pkginclude_HEADERS =	Kernel.h\
 			EventFactory.h\
 			SmartPtr.h\
 			Binding.h\
-			GetTime.h
+			GetTime.h\
+			IThread.h
 
  

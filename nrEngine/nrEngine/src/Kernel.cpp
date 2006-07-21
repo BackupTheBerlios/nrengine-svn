@@ -98,15 +98,7 @@ namespace nrEngine {
 				// kill task if we need this
 				if(t->_taskCanKill){
 
-					// erase it
-					NR_Log(Log::LOG_KERNEL, "Stop task \"%s\" (id=%d) before removing",t->taskGetName(), t->getTaskID());
-					t->taskStop();
-
-					// send a message about current task state
-					if (bSendEvents && EventManager::isValid()){
-						SharedPtr<Event> msg(new KernelStopTaskEvent(t->taskGetName(), t->getTaskID()));
-						EventManager::GetSingleton().emitSystem(msg);
-					}
+					_taskStop(t);
 
 					// remove the task
 					tempID = t->getTaskID();
@@ -173,25 +165,73 @@ namespace nrEngine {
 			if (!task)
 				return KERNEL_NO_TASK_FOUND;
 
-			// check for the task states
-			if (task->getTaskState() == TASK_STOPPED){
-				NR_Log(Log::LOG_KERNEL, "Start task \"%s\" with id=%d", task->taskGetName(), task->getTaskID());
+			// check if the task is not a thread
+			if (!task->isRunningParallel()){
+				// check for the task states
+				if (task->getTaskState() == TASK_STOPPED){
+					NR_Log(Log::LOG_KERNEL, "Start task \"%s\" with id=%d", task->taskGetName(), task->getTaskID());
 
-				// start the task, if can not start so not add this task to the std::list
-				if( task->taskStart() != OK){
-					NR_Log(Log::LOG_KERNEL, Log::LL_WARNING, "Cannot start the Task \"%s\", because of Task-Internal Error", task->taskGetName());
-					task->setTaskState(TASK_STOPPED);
-				}else{
-					task->setTaskState(TASK_RUNNING);
+					// start the task, if can not start so not add this task to the std::list
+					if( task->taskStart() != OK){
+						NR_Log(Log::LOG_KERNEL, Log::LL_WARNING, "Cannot start the Task \"%s\", because of Task-Internal Error", task->taskGetName());
+						task->setTaskState(TASK_STOPPED);
+					}else{
+						task->setTaskState(TASK_RUNNING);
 
-					// send a message about current task state
-					if (bSendEvents){
-						SharedPtr<Event> msg(new KernelStartTaskEvent(task->taskGetName(), task->getTaskID()));
-						EventManager::GetSingleton().emitSystem(msg);
+						// send a message about current task state
+						if (bSendEvents){
+							SharedPtr<Event> msg(new KernelStartTaskEvent(task->taskGetName(), task->getTaskID()));
+							EventManager::GetSingleton().emitSystem(msg);
+						}
 					}
+				}else if (task->getTaskState() == TASK_PAUSED){
+					return ResumeTask(task->getTaskID());
 				}
-			}else if (task->getTaskState() == TASK_PAUSED){
-				return ResumeTask(task->getTaskID());
+
+			// run the according thread
+			}else{
+				// cast the task to thread object
+				SharedPtr<IThread> thread = boost::dynamic_pointer_cast<IThread, ITask>(task);
+				NR_Log(Log::LOG_KERNEL, "Start task \"%s\" with id=%d as a thread", task->taskGetName(), task->getTaskID());
+				thread->threadStart();
+			}
+
+		} catch (...){
+			return UNKNOWN_ERROR;
+		}
+
+		// OK
+		return OK;
+
+	}
+
+	//-------------------------------------------------------------------------
+	Result Kernel::_taskStop(SharedPtr<ITask>& task)
+	{
+		try{
+			// no task given, so return error
+			if (!task)
+				return KERNEL_NO_TASK_FOUND;
+
+			// check if the task is not a thread
+			if (!task->isRunningParallel()){
+
+				// stop the task
+				NR_Log(Log::LOG_KERNEL, "Stop task \"%s\" (id=%d)",task->taskGetName(), task->getTaskID());
+				task->taskStop();
+
+				// send a message about current task state
+				if (bSendEvents && EventManager::isValid()){
+					SharedPtr<Event> msg(new KernelStopTaskEvent(task->taskGetName(), task->getTaskID()));
+					EventManager::GetSingleton().emitSystem(msg);
+				}
+
+			// stop the according thread
+			}else{
+				// cast the task to thread object
+				SharedPtr<IThread> thread = boost::dynamic_pointer_cast<IThread, ITask>(task);
+				NR_Log(Log::LOG_KERNEL, "Stop thread/task \"%s\" (id=%d)", task->taskGetName(), task->getTaskID());
+				thread->threadStop();
 			}
 
 		} catch (...){
@@ -213,7 +253,7 @@ namespace nrEngine {
 			return KERNEL_NO_TASK_FOUND;
 		}
 
-		// OK
+		// check if the task is not a thread
 		return _taskStart(task);
 	}
 
@@ -243,16 +283,19 @@ namespace nrEngine {
 
 
 	//-------------------------------------------------------------------------
-	taskID Kernel::AddTask (SharedPtr<ITask> t, taskOrder order){
+	taskID Kernel::AddTask (SharedPtr<ITask> t, taskOrder order, bool isThread){
 
 		_nrEngineProfile("Kernel.AddTask");
 
 		try {
 
 			t->_taskOrder = order;
+			t->_isTaskRunAsThread = isThread;
 
-			NR_Log(Log::LOG_KERNEL, "Add Task \"%s\" at order = %d",
-						t->taskGetName(), t.get(), int32(t->getTaskOrder()));
+			if (!isThread)
+				NR_Log(Log::LOG_KERNEL, "Add Task \"%s\" at order = %d", t->taskGetName(), t.get(), int32(t->getTaskOrder()));
+			else
+				NR_Log(Log::LOG_KERNEL, "Add Task \"%s\" as thread", t->taskGetName(), t.get());
 
 			// check whenever such task already exists
 			std::list< SharedPtr<ITask> >::iterator it;
@@ -294,8 +337,6 @@ namespace nrEngine {
 			// create new task id and add the task
 			t->setTaskID(++lastTaskID);
 			taskList.insert (it,t);
-
-			//NR_Log(Log::LOG_KERNEL, "Task \"%s\" was added TaskID=%d",t->taskGetName(), t.get(), t->getTaskID());
 
 		} catch(...){
 			return UNKNOWN_ERROR;

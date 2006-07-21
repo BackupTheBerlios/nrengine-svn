@@ -19,7 +19,7 @@
 //----------------------------------------------------------------------------------
 #include "Prerequisities.h"
 #include "Priority.h"
-
+#include "IThread.h"
 
 namespace nrEngine{
 
@@ -63,10 +63,10 @@ namespace nrEngine{
 
 		//! User tasks are task defined by the user
 		TASK_USER
-		
+
 	} taskType;
-	
-	
+
+
 	/**
 	* Each task is in the kernel in specified order. This enum describes all order/queue
 	* positions of any task in the kernel system
@@ -81,49 +81,49 @@ namespace nrEngine{
 		* You can not add any user task on this order position.
 		**/
 		ORDER_SYS_ROOT		= 0,
-		
-		//! First task 
+
+		//! First task
 		ORDER_SYS_FIRST		= 1 * ORDER_STEP,
 
 		//! Next after first
 		ORDER_SYS_SECOND	= 2 * ORDER_STEP,
-		
+
 		//! Next after first
 		ORDER_SYS_THIRD		= 3 * ORDER_STEP,
-		
+
 		//! Next after first
 		ORDER_SYS_FOURTH	= 4 * ORDER_STEP,
 
 		//! Next after first
 		ORDER_SYS_FIVETH	= 5 * ORDER_STEP,
-		
+
 		//! Greatest order border for system task (only ordering)
 		ORDER_SYS_LAST		= 6 * ORDER_STEP,
-		
+
 		//! Task will be updated as first
 		ORDER_FIRST			= 7 * ORDER_STEP,
-		
+
 		//! Next after the first
 		ORDER_ULTRA_HIGH	= 8 * ORDER_STEP,
-		
+
 		//! Next smaller order number to the ultra high value
 		ORDER_VERY_HIGH		= 8 * ORDER_STEP,
-		
+
 		//! Next after very high
 		ORDER_HIGH			= 10 * ORDER_STEP,
-		
+
 		//! Default order number (Center point)
 		ORDER_NORMAL		= 11 * ORDER_STEP,
-		
+
 		//! Later update as of the normal position
 		ORDER_LOW			= 12 * ORDER_STEP,
-		
+
 		//! Updating next after low
 		ORDER_VERY_LOW		= 13 * ORDER_STEP,
-		
+
 		//! Ultra low order by comparison to the normal value
 		ORDER_ULTRA_LOW		= 14 * ORDER_STEP,
-		
+
 		//! Task having this order will be updated as last
 		ORDER_LAST			= 15 * ORDER_STEP
 
@@ -134,7 +134,7 @@ namespace nrEngine{
 	* \par
 	* 	ITask - is an interface for tasks of our kernel system. Kernel runs all
 	* 	specified and added task in their queue order (think on OS). So ITask
-	* 	Interface defines functions to be implemented by each task. 
+	* 	Interface defines functions to be implemented by each task.
 	*
 	* \par
 	* 	There is a rule to understanding order numbers:
@@ -175,7 +175,7 @@ namespace nrEngine{
 	*
 	* \ingroup kernel
 	**/
-	class _NRExport ITask{
+	class _NRExport ITask : public IThread{
 	public:
 
 		/**
@@ -190,7 +190,7 @@ namespace nrEngine{
 		* classes can setup their names.
 		**/
 		ITask(const ::std::string& name);
-		
+
 		/**
 		* Virtual destructor to allow to derive new classes from this one
 		**/
@@ -205,7 +205,7 @@ namespace nrEngine{
 		 * Two tasks are the same if their order number are equal or they are the same objects
 		 **/
 		bool operator == (const ITask &t);
-		
+
 		bool operator <= (const ITask &t);
 		bool operator >  (const ITask &t);
 		bool operator >= (const ITask &t);
@@ -270,45 +270,49 @@ namespace nrEngine{
 		* Get the state in which the task is
 		**/
 		taskState getTaskState() const;
-		
+
 		/**
 		* Add a new task id of a task on which one this task depends.
 		*
 		* @param id Unique ID of a task on which one this depends
 		* @return either OK or:
-		*		- 
+		*		-
 		**/
 		Result addDependency(taskID id);
-		
+
 		/**
 		* Overloaded function that allows to add a dependency from the task itself
 		**/
 		Result addDependency(const ITask& task);
-		
+
 		/**
 		* Overloded function that allows to add a dependency from the pointer on a task
 		**/
 		Result addDependency(const ITask* pTask);
-		
+
 		//! Kernel should have the full access to the task data. So kernel is our friend
 		friend class Kernel;
 
 		//! Engine should also get full access to running tasks, to allow setting up system tasks
 		friend class Engine;
-		
+
+		//! Does this task run as a parallel thread
+		bool isRunningParallel() const { return _isTaskRunAsThread; }
+
 	private:
 		bool 		_taskCanKill;		// we can kill this task in next system cycle
 		taskState	_taskState;
 		taskID 		_taskID;			// from kernel given task ID (unique)
 		taskOrder 	_taskOrder;			// order number of our tasks
 		taskType	_taskType;			// type of the task
-		
+
 		bool 		_orderChanged;
+		bool		_isTaskRunAsThread;	// does this task run as a thread
 		char 		_taskName[64];
-		
+
 		//! Used by the kernel
 		int32	_taskGraphColor;
-		
+
 		//! This vector does store all task id's on which one this depends
 		std::vector<taskID>		_taskDependencies;
 
@@ -317,18 +321,23 @@ namespace nrEngine{
 
 		//! Only friends are allowed to set the id of the task
 		void setTaskID(taskID id);
-		
+
 		//! Friends are also allowed to set the task state
 		void setTaskState(taskState state);
-		
+
 		//! Set new order number for this task
 		void setTaskOrder(taskOrder order);
 
+		void _noticeSuspend();
+		void _noticeResume();
+		void _noticeUpdate();
+		void _noticeStop();
+
 	protected:
-			
+
 		//! Setup the name of the task
 		void setTaskName(const ::std::string& name);
-		
+
 	};
 
 	//! Empty task does not affect anything. It can helps to group tasks by making htem depends on this task
@@ -353,11 +362,11 @@ namespace nrEngine{
 
 		//! Do nothing just return OK
 		virtual Result taskUpdate() { return OK; }
-		
+
 		//! Do nothing just return OK
 		virtual Result taskStop()	{ return OK; }
-		
+
 	};
-	
+
 }; // end namespace
 #endif	//_NR...

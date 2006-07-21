@@ -41,7 +41,7 @@ CXXFLAGS="-O2  -fomit-frame-pointer -Wall -Werror"
 #CFLAGS="$CFLAGS -O2 -Wall -Werror"
 #CXXFLAGS="$CXXFLAGS -O2 -Wall -Werror"
 #LIBS="$LIBS $BOOST_SIGNALS_LIB"
-LDFLAGS="$LDFLAGS $BOOST_SIGNALS_LIB"
+LDFLAGS="$LDFLAGS"
 
 dnl versioning info for libtool
 NRENGINEMAIN_CURRENT=0

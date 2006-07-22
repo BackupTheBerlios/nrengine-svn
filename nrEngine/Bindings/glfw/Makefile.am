@@ -10,8 +10,8 @@ INCLUDES = -I$(top_srcdir)/Bindings/glfw/ -I$(top_srcdir)/nrEngine/include
 CFLAGS= -O2 -Wall -Werror
 
 OBJECTS= Binding.o Task.o
-LIBS= -lglfw -lGL -lGLU -lX11 -lpthread -lm
-LDFLAGS= -L/lib -L/usr/lib -Llib
+LIBS= -lglfw -lGL -lGLU -lX11 -pthread
+LDFLAGS= -L/lib -L/usr/lib -L/usr/X11R6/lib -Llib
 
 NAME= libnrEngine_GLFWBinding.so
 

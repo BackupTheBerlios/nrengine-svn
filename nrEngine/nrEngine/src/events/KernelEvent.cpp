@@ -18,8 +18,7 @@
 namespace nrEngine{
 
 	//----------------------------------------------------------------------------------
-	KernelEvent::KernelEvent(const std::string& taskName, taskID id, Priority prior)
-		: EventT<KernelEvent>(prior)
+	KernelEvent::KernelEvent(const std::string& taskName, taskID id, Priority prior) : Event(prior)
 	{
 		mTaskId = id;
 		mTaskName = taskName;

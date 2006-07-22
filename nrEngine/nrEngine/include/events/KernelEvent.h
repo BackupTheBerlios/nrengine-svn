@@ -32,7 +32,7 @@ namespace nrEngine{
 	 *
 	 * \ingroup sysevent
 	 **/
-	class _NRExport KernelEvent : public EventT<KernelEvent> {
+	class _NRExport KernelEvent : public Event {
 		public:
 
 			/**

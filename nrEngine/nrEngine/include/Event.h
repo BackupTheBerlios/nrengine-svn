@@ -33,7 +33,7 @@ namespace nrEngine{
 	 **/
 	class _NRExport Event {
 		public:
-
+			
 			/**
 			 * Release used memory
 			 **/
@@ -59,37 +59,25 @@ namespace nrEngine{
 				return true;
 			}
 
-			/*template<class U> bool same_as()
-			{
-				// we try a dynamic cast if it fails, so types are different
-				try{
-					U ptr = dynamic_cast<U>(*this);
-				}catch (std::bad_cast s){
-					return false;
-				}
-				return true;
-			}*/
+		protected:
+			/**
+			* Create new instance of a base class Event.
+			*
+			* @param typeName Unique type name for this class.
+			*
+			* NOTE: You can not directly derive new classes from
+			* this one, because the constructor is private and can
+			* only be accessed from friend class EventT<>.
+			* We implemented it in this way to hide the internal
+			* runtime typechecking from the user.
+			**/
+			Event(Priority prior);
+
 
 		private:
 
 			//! Priority of the message
 			Priority mPriority;
-
-			//! Friend is a templated EventT class
-			template<class T> friend class EventT;
-
-			/**
-			 * Create new instance of a base class Event.
-			 *
-			 * @param typeName Unique type name for this class.
-			 *
-			 * NOTE: You can not directly derive new classes from
-			 * this one, because the constructor is private and can
-			 * only be accessed from friend class EventT<>.
-			 * We implemented it in this way to hide the internal
-			 * runtime typechecking from the user.
-			 **/
-			Event(Priority prior);
 
 	};
 
@@ -142,43 +130,6 @@ namespace nrEngine{
 		return ptr;
 	}
 
-	//! Events are messages used to communicate between application components
-	/**
-	 * An event is a message used to establish a communication between
-	 * application components or between application and user interface.
-	 * Our communication is done through certain communication channels.
-	 * So each message which has to be readed by actors has to be sent to a
-	 * channel where this actors are connected to.
-	 *
-	 * Derive your events if you want to implement a communication through
-	 * event management system of nrEngine. You can derive your own event
-	 * types by: <code> class NewEvent : public EventT<NewEvent> {} </code>
-	 *
-	 * \ingroup event
-	**/
-	template<class T>
-	class _NRExport EventT : public Event{
-		public:
-
-			/**
-			 * Create a new event object.
-			 * This will cause to create als Event class by specifing
-			 * the typename and the priority to it.
-			 **/
-			EventT(Priority prior) : Event(prior)
-			{
-
-			}
-
-
-			/**
-			 * Destructor of the EventT class
-			 **/
-			~EventT(){}
-
-		protected:
-
-	};
 
 }; // end namespace
 

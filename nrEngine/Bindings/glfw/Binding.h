@@ -31,7 +31,7 @@ namespace nrBinding {
 		* event management. So you have to create a instance of this class
 		* to provide the user the functionality of this binding.
 		**/
-		class _NRExport Binding : public nrEngine::Binding, public nrEngine::ISingleton<Binding>{
+		class _NRExport Binding : public nrEngine::ISingleton<Binding>{
 
 			public:
 

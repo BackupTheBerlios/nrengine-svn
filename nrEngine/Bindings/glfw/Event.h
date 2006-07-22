@@ -25,13 +25,13 @@ namespace nrBinding{
 		 * OnCreateWindowEvent - this event is emmited as soon as
 		 * a new window was created.
 		 **/
-		class _NRExport OnCreateWindowEvent : public nrEngine::EventT<OnCreateWindowEvent>{
+		class _NRExport OnCreateWindowEvent : public nrEngine::Event{
 			public:
 				//! Constructor
 				OnCreateWindowEvent(nrEngine::int32 width, nrEngine::int32 height,
 									bool full, nrEngine::int32 bpp, nrEngine::int32 depth,
 									nrEngine::int32 stencil):
-					nrEngine::EventT<OnCreateWindowEvent>(nrEngine::Priority::NORMAL)
+					nrEngine::Event(nrEngine::Priority::NORMAL)
 					{
 						this->width = width;
 						this->height = height;
@@ -66,9 +66,9 @@ namespace nrBinding{
 		 * if you recieve this message, you have to check, what happens, to
 		 * handle appropriately
 		 **/
-		class _NRExport OnCloseWindowEvent : public nrEngine::EventT<OnCloseWindowEvent>{
+		class _NRExport OnCloseWindowEvent : public nrEngine::Event{
 			public:
-				OnCloseWindowEvent() : nrEngine::EventT<OnCloseWindowEvent>(nrEngine::Priority::IMMEDIATE) {}
+				OnCloseWindowEvent() : nrEngine::Event(nrEngine::Priority::IMMEDIATE) {}
 		};
 
 		/**
@@ -79,12 +79,12 @@ namespace nrBinding{
 		* the input may get into troubles.
 		*
 		**/
-		class _NRExport KeyboardEvent : public nrEngine::EventT<KeyboardEvent>{
+		class _NRExport KeyboardEvent : public nrEngine::Event{
 
 			public:
 
 				//! Constructor
-				KeyboardEvent(nrEngine::keyIndex key) : nrEngine::EventT<KeyboardEvent>(nrEngine::Priority::NORMAL) { mKey = key; }
+				KeyboardEvent(nrEngine::keyIndex key) : nrEngine::Event(nrEngine::Priority::NORMAL) { mKey = key; }
 
 				//! Destructor non virtual
 				~KeyboardEvent() {}

@@ -3,6 +3,7 @@ PREFIX=
 CC=g++
 LIBS=  -L/usr/lib -L/usr/X11R6/lib -L/HPS/usr7/tevs/local/lib\
 	   -lnrEngine -lnrEngine_GLFWBinding
+	   
 
 INCLUDES= -I/usr/local/include/ -I/HPS/usr7/tevs/local/include
 OPT_FLAGS= -Wall -Werror -g -march=i686
@@ -12,7 +13,7 @@ CFLAGS=$(OPT_FLAGS)
 LDFLAGS= 
 
 DESTDIR=
-OBJECTS= Main.o App.o GameTask.o
+OBJECTS= Main.o App.o GameTask.o SoundTask.o
 
 SIM_BIN=theGame
 BINS=$(SIM_BIN)

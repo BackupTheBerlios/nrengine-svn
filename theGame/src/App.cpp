@@ -9,6 +9,7 @@
 
 #include "GameTask.h"
 #include "App.h"
+#include "SoundTask.h"
 
 using namespace nrEngine;
 using namespace nrBinding;
@@ -35,6 +36,10 @@ Result App::init(){
 	// create the game task and add it into kernel
 	SharedPtr<ITask> game (new GameTask(this));
 	Kernel::GetSingleton().AddTask(game, ORDER_NORMAL);
+
+	// create sound task and run it as a thread
+	SharedPtr<ITask> sound(new SoundTask());
+	Kernel::GetSingleton().AddTask(sound, ORDER_NORMAL, true);
 
 	// ok
 	mInitialized = true;

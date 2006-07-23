@@ -1,7 +1,7 @@
 [Project]
 FileName=thGame.dev
 Name=thGame
-UnitCount=6
+UnitCount=8
 Type=1
 Ver=1
 ObjFiles=
@@ -12,7 +12,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=
-Linker=../nrEngine/Bindings/glfw/win32-devcpp/glfwBinding.a_@@_../nrEngine/Bindings/glfw/lib/glfw.dll_@@_../nrEngine/win32-devcpp/nrEngine.a_@@_
+Linker=../nrEngine/Bindings/glfw/win32-devcpp/glfwBinding.a_@@_../nrEngine/Bindings/glfw/lib/glfw.dll_@@_../nrEngine/win32-devcpp/nrEngine.a_@@_C:/Boost/lib/libboost_thread-mgw-mt-s.lib_@@_
 IsCpp=1
 Icon=
 ExeOutput=
@@ -106,4 +106,24 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit7]
+FileName=src\SoundTask.h
+CompileCpp=1
+Folder=thGame
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=src\SoundTask.cpp
+CompileCpp=1
+Folder=thGame
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 

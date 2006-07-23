@@ -1,7 +1,7 @@
 [Project]
 FileName=nrEngine.dev
 Name=nrEngine
-UnitCount=84
+UnitCount=86
 Type=2
 Ver=1
 ObjFiles=
@@ -12,7 +12,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=-DBUILDING_DLL=1_@@_
 CppCompiler=-DBUILDING_DLL=1_@@_
-Linker=--export-all-symbols_@@_
+Linker=--export-all-symbols_@@_C:/Boost/lib/libboost_thread-mgw-mt-s-1_33_1.lib_@@_
 IsCpp=1
 Icon=
 ExeOutput=
@@ -888,7 +888,17 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit85]
-FileName=..\nrEngine\src\GetTime.cpp
+FileName=..\nrEngine\include\IThread.h
+CompileCpp=1
+Folder=nrEngine
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit86]
+FileName=..\nrEngine\src\IThread.cpp
 CompileCpp=1
 Folder=nrEngine
 Compile=1
